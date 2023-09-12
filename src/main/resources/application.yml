@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5436/booking_db
+    username: user
+    password: qwerty
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yml
+
+logging:
+  level:
+    org.springframework.jdbc.core: trace
