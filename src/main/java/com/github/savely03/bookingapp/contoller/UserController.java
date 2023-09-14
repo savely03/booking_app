@@ -5,8 +5,6 @@ import com.github.savely03.bookingapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -16,12 +14,12 @@ public class UserController {
 
     @PostMapping
     public Users create(@RequestBody Users user) {
-        return userRepository.create(user);
+        return userRepository.save(user);
     }
 
 
     @GetMapping
-    public List<Users> findAll() {
+    public Iterable<Users> findAll() {
         return userRepository.findAll();
     }
 
@@ -32,6 +30,6 @@ public class UserController {
 
     @GetMapping("/exists/{id}")
     public Boolean exists(@PathVariable Long id) {
-        return userRepository.exists(id);
+        return userRepository.existsById(id);
     }
 }

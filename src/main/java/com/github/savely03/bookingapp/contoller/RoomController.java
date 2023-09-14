@@ -6,8 +6,6 @@ import com.github.savely03.bookingapp.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/room")
 @RequiredArgsConstructor
@@ -17,7 +15,7 @@ public class RoomController {
 
     @PostMapping
     public Room create(@RequestBody Room room) {
-        return roomRepository.create(room);
+        return roomRepository.save(room);
     }
 
     @GetMapping("/{id}")
@@ -26,7 +24,7 @@ public class RoomController {
     }
 
     @GetMapping
-    public List<Room> findAll() {
+    public Iterable<Room> findAll() {
         return roomRepository.findAll();
     }
 }

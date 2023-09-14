@@ -1,36 +1,36 @@
 package com.github.savely03.bookingapp.contoller;
 
+import com.github.savely03.bookingapp.dto.HotelFilterDto;
+import com.github.savely03.bookingapp.dto.HotelWithCntRoomsDto;
 import com.github.savely03.bookingapp.entity.Hotel;
-import com.github.savely03.bookingapp.repository.HotelRepository;
+import com.github.savely03.bookingapp.service.HotelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/hotel")
 @RequiredArgsConstructor
 public class HotelController {
 
-    private final HotelRepository hotelRepository;
+    private final HotelService hotelService;
 
     @PostMapping
     public Hotel create(@RequestBody Hotel hotel) {
-        return hotelRepository.create(hotel);
+        return hotelService.save(hotel);
     }
 
     @GetMapping("/{id}")
     public Hotel getById(@PathVariable Long id) {
-        return hotelRepository.findById(id).orElse(null);
-    }
-
-    @GetMapping("/exists/{id}")
-    public Boolean exists(@PathVariable Long id) {
-        return hotelRepository.exists(id);
+        return hotelService.findById(id);
     }
 
     @GetMapping
-    public List<Hotel> findAll() {
-        return hotelRepository.findAll();
+    public Iterable<Hotel> findAll() {
+        return hotelService.findAll();
+    }
+
+    @GetMapping("/free")
+    public Iterable<HotelWithCntRoomsDto> findAllFree(@RequestBody HotelFilterDto filter) {
+        return hotelService.findAllFree(filter);
     }
 }

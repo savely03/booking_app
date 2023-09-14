@@ -5,8 +5,6 @@ import com.github.savely03.bookingapp.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/booking")
 @RequiredArgsConstructor
@@ -15,8 +13,8 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
-    public BookingDto create(@RequestBody BookingDto bookingDto) {
-        return bookingService.create(bookingDto);
+    public BookingDto create(@RequestBody BookingDto booking) {
+        return bookingService.save(booking);
     }
 
     @GetMapping("/{id}")
@@ -25,7 +23,7 @@ public class BookingController {
     }
 
     @GetMapping
-    public List<BookingDto> findAll() {
+    public Iterable<BookingDto> findAll() {
         return bookingService.findAll();
     }
 }
