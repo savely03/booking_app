@@ -1,6 +1,7 @@
 package com.github.savely03.bookingapp.mapper;
 
-import com.github.savely03.bookingapp.dto.BookingDto;
+import com.github.savely03.bookingapp.dto.BookingReadDto;
+import com.github.savely03.bookingapp.entity.Hotel;
 import com.github.savely03.bookingapp.entity.Role;
 import com.github.savely03.bookingapp.entity.Room;
 import com.github.savely03.bookingapp.entity.Users;
@@ -11,9 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class BookingDtoRowMapper implements RowMapper<BookingDto> {
+public class BookingReadDtoRowMapper implements RowMapper<BookingReadDto> {
     @Override
-    public BookingDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public BookingReadDto mapRow(ResultSet rs, int rowNum) throws SQLException {
         Room room = Room.builder()
                 .id(rs.getLong("room_id"))
                 .hotelId(rs.getLong("hotel_id"))
@@ -27,12 +28,17 @@ public class BookingDtoRowMapper implements RowMapper<BookingDto> {
                 .role(Role.valueOf(rs.getString("role")))
                 .email(rs.getString("email"))
                 .build();
-        return BookingDto.builder()
+        Hotel hotel = Hotel.builder()
+                .id(rs.getLong("hotel_id"))
+                .hotelName(rs.getString("hotel_name"))
+                .stars(rs.getShort("stars"))
+                .city(rs.getString("city"))
+                .build();
+        return BookingReadDto.builder()
                 .id(rs.getLong("id"))
-                .roomId(room.getId())
-                .userId(user.getId())
                 .room(room)
                 .user(user)
+                .hotel(hotel)
                 .dateFrom(rs.getDate("date_from").toLocalDate())
                 .dateTo(rs.getDate("date_to").toLocalDate())
                 .build();

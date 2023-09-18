@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotels Main Page</title>
+</head>
+<body>
+<div style="text-align: center">
+    <h1>Бронирование отеля</h1>
+    <form action="/hotels/free">
+        <label for="city">Город:
+            <input id="city" type="text" name="city">
+        </label><br><br>
+        <label for="dateFrom">Дата заезда:
+            <input id="dateFrom" type="date" name="dateFrom">
+        </label><br><br>
+        <label for="dateTo">Дата выезда:
+            <input id="dateTo" type="date" name="dateTo">
+        </label><br><br>
+        <div>
+            <label for="stars">Количество звезд:
+                <select id="stars" name="stars">
+                    <option>5</option>
+                    <option>4</option>
+                    <option>3</option>
+                    <option>2</option>
+                    <option>1</option>
+                </select>
+            </label>
+        </div>
+        <br>
+        <button type="submit">Поиск</button>
+    </form>
+    <br>
+    <a th:href="@{/bookings(userId=1)}">
+        <button>История бронирования</button>
+    </a>
+    <br><br>
+    <a href="/hotels/create">
+        <button>Создать отель</button>
+    </a>
+    <br><br>
+    <a href="/hotels">
+        <button>Список отелей</button>
+    </a>
+</div>
+</body>
+</html>

@@ -2,6 +2,7 @@ package com.github.savely03.bookingapp.service;
 
 import com.github.savely03.bookingapp.dto.HotelFilterDto;
 import com.github.savely03.bookingapp.dto.HotelWithCntRoomsDto;
+import com.github.savely03.bookingapp.dto.HotelWithFullInfoByRoomsDto;
 import com.github.savely03.bookingapp.entity.Hotel;
 import com.github.savely03.bookingapp.exception.HotelNotFoundException;
 import com.github.savely03.bookingapp.repository.HotelRepository;
@@ -21,16 +22,29 @@ public class HotelService {
         return hotelRepository.save(hotel);
     }
 
+    @Transactional
+    public void update(Long id, Hotel hotel) {
+        if (hotelRepository.existsById(id)) {
+            hotel.setId(id);
+            hotelRepository.save(hotel);
+            return;
+        }
+        throw new HotelNotFoundException();
+    }
+
     public Hotel findById(Long id) {
         return hotelRepository.findById(id).orElseThrow(HotelNotFoundException::new);
     }
 
-    public Iterable<Hotel> findAll() {
-        return hotelRepository.findAll();
+    public Iterable<HotelWithFullInfoByRoomsDto> findAllWithFullInfoByRooms(String city, Short stars) {
+        if (city != null && stars != null) {
+            return hotelRepository.findAllWithFullInfoByRooms(city, stars);
+        }
+        return hotelRepository.findAllWithFullInfoByRooms();
     }
 
-    public Iterable<HotelWithCntRoomsDto> findAllFree(HotelFilterDto filter) {
-        return hotelRepository.findAllFree(
+    public Iterable<HotelWithCntRoomsDto> findAllFreeByFilter(HotelFilterDto filter) {
+        return hotelRepository.findAllFreeHotelsByFilter(
                 filter.getDateFrom(),
                 filter.getDateTo(),
                 filter.getStars(),

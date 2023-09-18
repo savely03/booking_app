@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Free Hotels</title>
+</head>
+<body>
+<h1>Отели</h1>
+<div style="text-align: center" th:if="${hotels.iterator().hasNext() != false}">
+    <table>
+        <thead>
+        <tr>
+            <th>Название отеля</th>
+            <th>Количество звезд</th>
+            <th>Город</th>
+            <th>Количество свободных номеров</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="hotel: ${hotels}">
+            <tr>
+                <td>
+                    <p th:text="${hotel.getHotelName()}">City</p>
+                </td>
+                <td>
+                    <p th:text="${hotel.getStars()}">Stars</p>
+                </td>
+                <td>
+                    <p th:text="${hotel.getCity()}">City</p>
+                </td>
+                <td>
+                    <p th:text="${hotel.getCntRooms()}">Rooms</p>
+                </td>
+                <td>
+                    <form action="/bookings" method="post">
+                        <input type="hidden" th:value="${hotel.getId()}" name="hotelId">
+                        <input type="hidden" th:value="${filter.getDateFrom()}" name="dateFrom">
+                        <input type="hidden" th:value="${filter.getDateTo()}" name="dateTo">
+                        <button type="submit">Забронировать номер</button>
+                    </form>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</div>
+<br><br>
+<div style="text-align: center">
+    <h4><span th:text="${hotels.iterator().hasNext() == false} ? 'По заданным параметрам нет свободных номеров'">
+        Text
+    </span>
+    </h4>
+    <br><br>
+    <a href="/hotels/index">
+        <button>Вернуться на главную страницу</button>
+    </a>
+</div>
+</body>
+</html>

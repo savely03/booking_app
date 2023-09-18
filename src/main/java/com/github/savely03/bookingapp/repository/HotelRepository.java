@@ -1,8 +1,10 @@
 package com.github.savely03.bookingapp.repository;
 
 import com.github.savely03.bookingapp.dto.HotelWithCntRoomsDto;
+import com.github.savely03.bookingapp.dto.HotelWithFullInfoByRoomsDto;
 import com.github.savely03.bookingapp.entity.Hotel;
 import com.github.savely03.bookingapp.mapper.HotelWithCntRoomsRowMapper;
+import com.github.savely03.bookingapp.mapper.HotelWithFullInfoByRoomsRowMapper;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +15,25 @@ import java.util.List;
 
 @Repository
 public interface HotelRepository extends CrudRepository<Hotel, Long> {
+
+    String FIND_ALL = """
+            SELECT h.id,
+                   h.hotel_name,
+                   h.city,
+                   count(r.id)                    as total_rooms,
+                   count(b.room_id)               as busy_rooms,
+                   count(r.id) - count(b.room_id) as free_rooms
+            FROM hotel h
+                      LEFT JOIN room r ON h.id = r.hotel_id
+                      LEFT JOIN
+                  (SELECT room_id
+                   FROM booking
+                   WHERE current_date BETWEEN date_from AND date_to) b
+                  ON r.id = b.room_id
+            GROUP BY h.id, h.hotel_name, h.city
+            """;
+
+    String FIND_ALL_BY_CITY_AND_STARS = FIND_ALL + " HAVING h.city = :city AND h.stars = :stars";
 
     @Query(value = """
             SELECT id, hotel_name, stars, city, hotel_id, cnt_rooms
@@ -32,9 +53,15 @@ public interface HotelRepository extends CrudRepository<Hotel, Long> {
                 WHERE stars = :stars
                 AND city = :city
             """, rowMapperClass = HotelWithCntRoomsRowMapper.class)
-    List<HotelWithCntRoomsDto> findAllFree(@Param("date_from") LocalDate dateFrom,
-                                           @Param("date_to") LocalDate dateTo,
-                                           @Param("stars") Short stars,
-                                           @Param("city") String city);
+    List<HotelWithCntRoomsDto> findAllFreeHotelsByFilter(@Param("date_from") LocalDate dateFrom,
+                                                         @Param("date_to") LocalDate dateTo,
+                                                         @Param("stars") Short stars,
+                                                         @Param("city") String city);
 
+    @Query(value = FIND_ALL, rowMapperClass = HotelWithFullInfoByRoomsRowMapper.class)
+    Iterable<HotelWithFullInfoByRoomsDto> findAllWithFullInfoByRooms();
+
+    @Query(value = FIND_ALL_BY_CITY_AND_STARS, rowMapperClass = HotelWithFullInfoByRoomsRowMapper.class)
+    Iterable<HotelWithFullInfoByRoomsDto> findAllWithFullInfoByRooms(@Param("city") String city,
+                                                                     @Param("stars") Short stars);
 }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Created Booking</title>
+</head>
+<body>
+<h1>Бронирование</h1>
+<div style="text-align: center">
+    <table>
+        <tr>
+            <th>Username:</th>
+            <td><p th:text="${booking.getUser().getUsername()}">Username</p></td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td><p th:text="${booking.getUser().getEmail()}">Email</p></td>
+        </tr>
+        <tr>
+            <th>Название отеля:</th>
+            <td><p th:text="${booking.getHotel().getHotelName()}">HotelName</p></td>
+        </tr>
+        <tr>
+            <th>Количество звёзд:</th>
+            <td><p th:text="${booking.getHotel().getStars()}">Stars</p></td>
+        </tr>
+        <tr>
+            <th>Город:</th>
+            <td><p th:text="${booking.getHotel().getCity()}">City</p></td>
+        </tr>
+        <tr>
+            <th>Номер:</th>
+            <td><p th:text="${booking.room.getRoomNumber()}">RoomNumber</p></td>
+        </tr>
+        <tr>
+            <th>Этаж:</th>
+            <td><p th:text="${booking.room.getRoomFloor()}">RoomFloor</p></td>
+        </tr>
+        <tr>
+            <th>Дата заезда:</th>
+            <td><p th:text="${booking.getDateFrom()}">DateFrom</p></td>
+        </tr>
+        <tr>
+            <th>Дата выезда:</th>
+            <td><p th:text="${booking.getDateTo()}">DateTo</p></td>
+        </tr>
+    </table>
+    <form th:action="@{/bookings/{id}(id=${booking.getId()})}" method="post">
+        <button type="submit">Отменить бронирование</button>
+    </form>
+    <br><br>
+
+    <a href="/hotels/index">
+        <button>Вернуться на главную страницу</button>
+    </a>
+</div>
+</body>
+</html>

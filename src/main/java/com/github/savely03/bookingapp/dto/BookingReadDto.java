@@ -1,6 +1,6 @@
 package com.github.savely03.bookingapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.savely03.bookingapp.entity.Hotel;
 import com.github.savely03.bookingapp.entity.Room;
 import com.github.savely03.bookingapp.entity.Users;
 import lombok.*;
@@ -13,14 +13,11 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @Builder
-public class BookingDto {
+public class BookingReadDto {
     private Long id;
-    private Long roomId;
     private Room room;
-    private Long userId;
     private Users user;
-    @JsonFormat(pattern = "dd.MM.yyyy")
+    private Hotel hotel;
     private LocalDate dateFrom;
-    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate dateTo;
 }

@@ -2,29 +2,38 @@ package com.github.savely03.bookingapp.contoller;
 
 
 import com.github.savely03.bookingapp.entity.Room;
-import com.github.savely03.bookingapp.repository.RoomRepository;
+import com.github.savely03.bookingapp.service.RoomService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@RestController
-@RequestMapping("/room")
+@Controller
+@RequestMapping("/rooms")
 @RequiredArgsConstructor
 public class RoomController {
 
-    private final RoomRepository roomRepository;
+    private final RoomService roomService;
 
-    @PostMapping
-    public Room create(@RequestBody Room room) {
-        return roomRepository.save(room);
+    @PostMapping("/create")
+    public String create(Room room) {
+        Room createdRoom = roomService.create(room);
+        return "redirect:/rooms/" + createdRoom.getId();
+    }
+
+    @PostMapping("/{id}/update")
+    public String update(@PathVariable Long id, Room room) {
+        roomService.update(id, room);
+        return "redirect:/rooms/" + id;
     }
 
     @GetMapping("/{id}")
-    public Room findById(@PathVariable Long id) {
-        return roomRepository.findById(id).orElse(null);
-    }
-
-    @GetMapping
-    public Iterable<Room> findAll() {
-        return roomRepository.findAll();
+    public String findById(Model model, @PathVariable Long id) {
+        Room room = roomService.findById(id);
+        model.addAttribute("room", room);
+        return "rooms/room";
     }
 }

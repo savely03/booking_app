@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Отели</title>
+</head>
+<body>
+<div style="text-align: center">
+    <h1>Отели</h1>
+    <form action="/hotels">
+        <label for="city">Город:
+            <input id="city" type="text" name="city">
+        </label><br><br>
+        <div>
+            <label for="stars">Количество звезд:
+                <select id="stars" name="stars">
+                    <option>5</option>
+                    <option>4</option>
+                    <option>3</option>
+                    <option>2</option>
+                    <option>1</option>
+                </select>
+            </label>
+        </div>
+        <br>
+        <button type="submit">Поиск</button>
+    </form>
+</div>
+<br><br>
+<div style="text-align: center">
+    <table>
+        <thead>
+        <tr>
+            <th>Название отеля</th>
+            <th>Город</th>
+            <th>Всего номеров</th>
+            <th>Количество занятых номеров</th>
+            <th>Количество свободных номеров</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="hotel: ${hotels}">
+            <tr>
+                <td>
+                    <p th:text="${hotel.hotelName()}">City</p>
+                </td>
+                <td>
+                    <p th:text="${hotel.city()}">City</p>
+                </td>
+                <td>
+                    <p th:text="${hotel.totalRooms()}">Rooms</p>
+                </td>
+                <td>
+                    <p th:text="${hotel.busyRooms()}">Rooms</p>
+                </td>
+                <td>
+                    <p th:text="${hotel.freeRooms()}">Rooms</p>
+                </td>
+                <td>
+                    <a th:href="@{/hotels/{hotelId}(hotelId=${hotel.id()})}">
+                        <button>Подробнее</button>
+                    </a>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+    <br>
+    <a href="/hotels/index">
+        <button>Вернуться на главную страницу</button>
+    </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel</title>
+</head>
+<body>
+<div style="text-align: center">
+    <h1>Информация об отеле</h1>
+    <form th:action="@{/hotels/{hotelId}/update(hotelId=${hotel.getId()})}" method="post">
+        <label for="hotelName">Название отеля:
+            <input id="hotelName" type="text" name="hotelName" th:value="${hotel.getHotelName()}">
+        </label><br><br>
+        <label for="city">Город:
+            <input id="city" type="text" name="city" th:value="${hotel.getCity()}">
+        </label><br><br>
+        <label for="stars">Количество звезд:
+            <input id="stars" type="text" name="stars" th:value="${hotel.getStars()}">
+        </label>
+        <br><br>
+        <button type="submit">Редактировать</button>
+    </form>
+    <br><br>
+    <h4>Добавление номера</h4>
+    <form action="/rooms/create" method="post">
+        <input type="hidden" name="hotelId" th:value="${hotel.getId()}">
+        <label for="roomNumber">Номер:
+            <input id="roomNumber" type="text" name="roomNumber">
+        </label><br><br>
+        <label for="roomFloor">Этаж:
+            <input id="roomFloor" type="text" name="roomFloor">
+        </label><br><br>
+        <button type="submit">Добавить номер</button>
+    </form>
+    <br>
+    <a href="/hotels/index">
+        <button>Вернуться на главную страницу</button>
+    </a>
+    <br>
+    <br>
+    <a href="/hotels">
+        <button>Вернуться к списку отелей</button>
+    </a>
+</div>
+</body>
+</html>
