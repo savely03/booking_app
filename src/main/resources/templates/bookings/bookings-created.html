@@ -10,42 +10,42 @@
     <table>
         <tr>
             <th>Username:</th>
-            <td><p th:text="${booking.getUser().getUsername()}">Username</p></td>
+            <td><p th:text="${booking.user().getUsername()}">Username</p></td>
         </tr>
         <tr>
             <th>Email:</th>
-            <td><p th:text="${booking.getUser().getEmail()}">Email</p></td>
+            <td><p th:text="${booking.user().getEmail()}">Email</p></td>
         </tr>
         <tr>
             <th>Название отеля:</th>
-            <td><p th:text="${booking.getHotel().getHotelName()}">HotelName</p></td>
+            <td><p th:text="${booking.hotel().getHotelName()}">HotelName</p></td>
         </tr>
         <tr>
             <th>Количество звёзд:</th>
-            <td><p th:text="${booking.getHotel().getStars()}">Stars</p></td>
+            <td><p th:text="${booking.hotel().getStars()}">Stars</p></td>
         </tr>
         <tr>
             <th>Город:</th>
-            <td><p th:text="${booking.getHotel().getCity()}">City</p></td>
+            <td><p th:text="${booking.hotel().getCity()}">City</p></td>
         </tr>
         <tr>
             <th>Номер:</th>
-            <td><p th:text="${booking.room.getRoomNumber()}">RoomNumber</p></td>
+            <td><p th:text="${booking.room().getRoomNumber()}">RoomNumber</p></td>
         </tr>
         <tr>
             <th>Этаж:</th>
-            <td><p th:text="${booking.room.getRoomFloor()}">RoomFloor</p></td>
+            <td><p th:text="${booking.room().getRoomFloor()}">RoomFloor</p></td>
         </tr>
         <tr>
             <th>Дата заезда:</th>
-            <td><p th:text="${booking.getDateFrom()}">DateFrom</p></td>
+            <td><p th:text="${booking.dateFrom()}">DateFrom</p></td>
         </tr>
         <tr>
             <th>Дата выезда:</th>
-            <td><p th:text="${booking.getDateTo()}">DateTo</p></td>
+            <td><p th:text="${booking.dateTo()}">DateTo</p></td>
         </tr>
     </table>
-    <form th:action="@{/bookings/{id}(id=${booking.getId()})}" method="post">
+    <form th:action="@{/bookings/{id}(id=${booking.id()})}" method="post">
         <button type="submit">Отменить бронирование</button>
     </form>
     <br><br>

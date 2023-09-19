@@ -3,6 +3,7 @@ package com.github.savely03.bookingapp.contoller;
 import com.github.savely03.bookingapp.dto.BookingCreateDto;
 import com.github.savely03.bookingapp.dto.BookingReadDto;
 import com.github.savely03.bookingapp.service.BookingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +19,9 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
-    public String createBooking(Model model, BookingCreateDto dto) {
+    public String createBooking(Model model, @Valid BookingCreateDto dto) {
         model.addAttribute("booking", bookingService.createBooking(dto));
         return "bookings/bookings-created";
-
     }
 
     @GetMapping("/{id}")

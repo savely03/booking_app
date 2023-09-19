@@ -7,8 +7,11 @@ import com.github.savely03.bookingapp.entity.Hotel;
 import com.github.savely03.bookingapp.exception.HotelNotFoundException;
 import com.github.savely03.bookingapp.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +40,7 @@ public class HotelService {
     }
 
     public Iterable<HotelWithFullInfoByRoomsDto> findAllWithFullInfoByRooms(String city, Short stars) {
-        if (city != null && stars != null) {
+        if (StringUtils.isNotBlank(city) && stars != null) {
             return hotelRepository.findAllWithFullInfoByRooms(city, stars);
         }
         return hotelRepository.findAllWithFullInfoByRooms();
@@ -47,8 +50,16 @@ public class HotelService {
         return hotelRepository.findAllFreeHotelsByFilter(
                 filter.getDateFrom(),
                 filter.getDateTo(),
-                filter.getStars(),
-                filter.getCity()
+                filter.stars(),
+                filter.city()
         );
+    }
+
+    public boolean existsById(Long id) {
+        return hotelRepository.existsById(id);
+    }
+
+    public Optional<Hotel> findByHotelNameAndCity(String hotelName, String city) {
+        return hotelRepository.findByHotelNameAndCity(hotelName, city);
     }
 }

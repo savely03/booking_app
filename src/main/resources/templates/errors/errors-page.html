@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница ошибок</title>
+</head>
+<body>
+<style>
+    table td {
+        vertical-align: top;
+        border: solid 1px #888;
+        padding: 10px;
+    }
+</style>
+<table>
+    <div th:each="error: ${errors}">
+        <tr>
+            <td>Error</td>
+            <td th:text="${error.status.getReasonPhrase()}"/>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td th:text="${error.status()}"/>
+        </tr>
+        <tr>
+            <td>Message</td>
+            <td>
+                <h4><span style="white-space: pre-line" th:text="${error.message()}"></span></h4>
+            </td>
+        </tr>
+    </div>
+</table>
+<br>
+<a href="/hotels/index">
+    <button>Вернуться на главную страницу</button>
+</a>
+</body>
+</html>

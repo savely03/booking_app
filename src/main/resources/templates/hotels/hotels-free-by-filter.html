@@ -20,20 +20,20 @@
         <div th:each="hotel: ${hotels}">
             <tr>
                 <td>
-                    <p th:text="${hotel.getHotelName()}">City</p>
+                    <p th:text="${hotel.hotelName()}">City</p>
                 </td>
                 <td>
-                    <p th:text="${hotel.getStars()}">Stars</p>
+                    <p th:text="${hotel.stars()}">Stars</p>
                 </td>
                 <td>
-                    <p th:text="${hotel.getCity()}">City</p>
+                    <p th:text="${hotel.city()}">City</p>
                 </td>
                 <td>
-                    <p th:text="${hotel.getCntRooms()}">Rooms</p>
+                    <p th:text="${hotel.cntRooms()}">Rooms</p>
                 </td>
                 <td>
                     <form action="/bookings" method="post">
-                        <input type="hidden" th:value="${hotel.getId()}" name="hotelId">
+                        <input type="hidden" th:value="${hotel.id()}" name="hotelId">
                         <input type="hidden" th:value="${filter.getDateFrom()}" name="dateFrom">
                         <input type="hidden" th:value="${filter.getDateTo()}" name="dateTo">
                         <button type="submit">Забронировать номер</button>

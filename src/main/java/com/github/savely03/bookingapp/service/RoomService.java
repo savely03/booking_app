@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -31,5 +34,13 @@ public class RoomService {
 
     public Room findById(Long id) {
         return roomRepository.findById(id).orElseThrow(RoomNotFoundException::new);
+    }
+
+    public boolean existsFreeRoomByHotelAndDate(Long hotelId, LocalDate dateFrom, LocalDate dateTo) {
+        return roomRepository.existsFreeRoomByHotelAndDate(hotelId, dateFrom, dateTo);
+    }
+
+    public Optional<Room> findByHotelIdAndRoomNumber(Long hotelId, Short roomNumber) {
+        return roomRepository.findByHotelIdAndRoomNumber(hotelId, roomNumber);
     }
 }

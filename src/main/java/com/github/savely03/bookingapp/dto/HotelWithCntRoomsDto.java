@@ -1,16 +1,12 @@
 package com.github.savely03.bookingapp.dto;
 
-import lombok.*;
+import lombok.Builder;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 @Builder
-public class HotelWithCntRoomsDto {
-    private Long id;
-    private String hotelName;
-    private Short stars;
-    private String city;
-    private Long cntRooms;
+public record HotelWithCntRoomsDto(
+        Long id,
+        String hotelName,
+        Short stars,
+        String city,
+        Long cntRooms) {
 }

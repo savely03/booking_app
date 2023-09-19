@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface HotelRepository extends CrudRepository<Hotel, Long> {
@@ -64,4 +65,6 @@ public interface HotelRepository extends CrudRepository<Hotel, Long> {
     @Query(value = FIND_ALL_BY_CITY_AND_STARS, rowMapperClass = HotelWithFullInfoByRoomsRowMapper.class)
     Iterable<HotelWithFullInfoByRoomsDto> findAllWithFullInfoByRooms(@Param("city") String city,
                                                                      @Param("stars") Short stars);
+
+    Optional<Hotel> findByHotelNameAndCity(String hotelName, String city);
 }

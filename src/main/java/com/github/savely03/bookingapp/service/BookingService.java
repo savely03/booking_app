@@ -6,7 +6,7 @@ import com.github.savely03.bookingapp.entity.Booking;
 import com.github.savely03.bookingapp.entity.Room;
 import com.github.savely03.bookingapp.exception.BookingNotFoundException;
 import com.github.savely03.bookingapp.exception.HotelNotFoundException;
-import com.github.savely03.bookingapp.exception.RoomsAvailableException;
+import com.github.savely03.bookingapp.exception.RoomAvailableException;
 import com.github.savely03.bookingapp.repository.BookingRepository;
 import com.github.savely03.bookingapp.repository.HotelRepository;
 import com.github.savely03.bookingapp.repository.RoomRepository;
@@ -36,11 +36,11 @@ public class BookingService {
 
     @Transactional
     public BookingReadDto createBooking(BookingCreateDto dto) {
-        if (hotelRepository.existsById(dto.getHotelId())) {
-            Room room = roomRepository.findFreeRoomsByHotelAndDate(dto.getHotelId(), dto.getDateFrom(), dto.getDateTo())
-                    .orElseThrow(RoomsAvailableException::new);
+        if (hotelRepository.existsById(dto.hotelId())) {
+            Room room = roomRepository.findFreeRoomByHotelAndDate(dto.hotelId(), dto.getDateFrom(), dto.getDateTo())
+                    .orElseThrow(RoomAvailableException::new);
             Booking booking = bookingRepository.save(Booking.builder()
-                    .userId(1L)
+                    .userId(1L) // хард код
                     .dateFrom(dto.getDateFrom())
                     .dateTo(dto.getDateTo())
                     .roomId(room.getId())
