@@ -26,7 +26,6 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/hotels/index")
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true))
-//                .exceptionHandling(handler -> handler.accessDeniedPage("/errors/403-page"))
                 .build();
     }
 
