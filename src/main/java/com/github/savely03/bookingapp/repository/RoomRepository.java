@@ -1,54 +1,46 @@
 package com.github.savely03.bookingapp.repository;
 
 import com.github.savely03.bookingapp.entity.Room;
-import com.github.savely03.bookingapp.mapper.RoomRowMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
-import static com.github.savely03.bookingapp.sql.RoomQuery.*;
-
 @Repository
-@RequiredArgsConstructor
-public class RoomRepository implements CrudRepository<Long, Room> {
+public interface RoomRepository extends CrudRepository<Room, Long> {
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final RoomRowMapper roomRowMapper;
+    @Query("""
+            SELECT id, hotel_id, room_number, room_floor
+            FROM room
+            WHERE hotel_id = :hotel_id
+            AND id NOT IN (
+                SELECT room_id
+                FROM booking
+                WHERE date_from BETWEEN :date_from AND :date_to
+                OR date_to BETWEEN :date_from AND :date_to
+            )
+            LIMIT 1
+            """)
+    Optional<Room> findFreeRoomByHotelAndDate(@Param("hotel_id") Long hotelId,
+                                              @Param("date_from") LocalDate dateFrom,
+                                              @Param("date_to") LocalDate dateTo);
 
-    @Override
-    public Room create(Room room) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("hotel_id", room.getHotelId())
-                .addValue("room_number", room.getRoomNumber())
-                .addValue("room_floor", room.getRoomFloor());
+    @Query("""
+            SELECT count(1) > 0 as exists
+            FROM room
+            WHERE id
+                NOT IN (SELECT room_id
+                        FROM booking
+                        WHERE date_from BETWEEN :date_from AND :date_to
+                           OR date_to BETWEEN :date_from AND :date_to)
+              AND hotel_id = :hotel_id
+            """)
+    boolean existsFreeRoomByHotelAndDate(@Param("hotel_id") Long hotelId,
+                                         @Param("date_from") LocalDate dateFrom,
+                                         @Param("date_to") LocalDate dateTo);
 
-        Long id = jdbcTemplate.queryForObject(INSERT, parameterSource, Long.class);
-        room.setId(id);
-
-        return room;
-    }
-
-    @Override
-    public Optional<Room> findById(Long id) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource().addValue("id", id);
-        List<Room> mayBeRoom = jdbcTemplate.query(FIND_BY_ID, parameterSource, roomRowMapper);
-        Room room = mayBeRoom.isEmpty() ? null : mayBeRoom.get(0);
-        return Optional.ofNullable(room);
-    }
-
-    @Override
-    public List<Room> findAll() {
-        return jdbcTemplate.query(FIND_ALL, roomRowMapper);
-    }
-
-    @Override
-    public Boolean exists(Long id) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource().addValue("id", id);
-        return jdbcTemplate.query(EXISTS, parameterSource, ResultSet::next);
-    }
+    Optional<Room> findByHotelIdAndRoomNumber(Long hotelId, Short roomNumber);
 }

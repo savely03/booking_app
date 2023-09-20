@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание отеля</title>
+</head>
+<body>
+<span th:insert="~{fragment :: user-info}"></span>
+<div style="text-align: center">
+    <h1>Создание отеля</h1>
+    <form action="/hotels/create" method="post">
+        <label for="hotelName">Название отеля:
+            <input id="hotelName" type="text" name="hotelName">
+        </label><br><br>
+        <label for="city">Город:
+            <input id="city" type="text" name="city">
+        </label><br><br>
+        <div>
+            <label for="stars">Количество звезд:
+                <select id="stars" name="stars">
+                    <option>5</option>
+                    <option>4</option>
+                    <option>3</option>
+                    <option>2</option>
+                    <option>1</option>
+                </select>
+            </label>
+        </div>
+        <br>
+        <button type="submit">Создать</button>
+    </form>
+    <br>
+    <span th:insert="~{fragment :: main-page}"></span>
+</div>
+</body>
+</html>

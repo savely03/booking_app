@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Fragments</title>
+</head>
+<body>
+<div th:fragment="user-info">
+    <h4>Logged user: <span sec:authentication="name">Name</span></h4>
+    <h4>Role: <span sec:authentication="principal.authorities">[ROLE]</span></h4>
+</div>
+<div th:fragment="main-page">
+    <a href="/hotels/index">
+        <button>Вернуться на главную страницу</button>
+    </a>
+</div>
+</body>
+</html>

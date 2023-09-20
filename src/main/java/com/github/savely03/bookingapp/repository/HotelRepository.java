@@ -1,55 +1,70 @@
 package com.github.savely03.bookingapp.repository;
 
+import com.github.savely03.bookingapp.dto.HotelWithCntRoomsDto;
+import com.github.savely03.bookingapp.dto.HotelWithFullInfoByRoomsDto;
 import com.github.savely03.bookingapp.entity.Hotel;
-import com.github.savely03.bookingapp.mapper.HotelRowMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import com.github.savely03.bookingapp.mapper.HotelWithCntRoomsRowMapper;
+import com.github.savely03.bookingapp.mapper.HotelWithFullInfoByRoomsRowMapper;
+import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static com.github.savely03.bookingapp.sql.HotelQuery.*;
-
 @Repository
-@RequiredArgsConstructor
-public class HotelRepository implements CrudRepository<Long, Hotel> {
+public interface HotelRepository extends CrudRepository<Hotel, Long> {
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final HotelRowMapper hotelRowMapper;
+    String FIND_ALL = """
+            SELECT h.id,
+                   h.hotel_name,
+                   h.city,
+                   count(r.id)                    as total_rooms,
+                   count(b.room_id)               as busy_rooms,
+                   count(r.id) - count(b.room_id) as free_rooms
+            FROM hotel h
+                      LEFT JOIN room r ON h.id = r.hotel_id
+                      LEFT JOIN
+                  (SELECT room_id
+                   FROM booking
+                   WHERE current_date BETWEEN date_from AND date_to) b
+                  ON r.id = b.room_id
+            GROUP BY h.id, h.hotel_name, h.city
+            """;
 
-    @Override
-    public Hotel create(Hotel hotel) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("hotel_name", hotel.getHotelName())
-                .addValue("stars", hotel.getStars())
-                .addValue("country", hotel.getCountry())
-                .addValue("city", hotel.getCity());
+    String FIND_ALL_BY_CITY_AND_STARS = FIND_ALL + " HAVING h.city = :city AND h.stars = :stars";
 
-        Long id = jdbcTemplate.queryForObject(INSERT, parameterSource, Long.class);
-        hotel.setId(id);
+    @Query(value = """
+            SELECT id, hotel_name, stars, city, hotel_id, cnt_rooms
+                FROM hotel h
+                JOIN (
+                    SELECT hotel_id, count(1) as cnt_rooms
+                    FROM room
+                    WHERE id
+                    NOT IN (
+                        SELECT room_id
+                        FROM booking
+                        WHERE date_from BETWEEN :date_from AND :date_to
+                        OR date_to BETWEEN :date_from AND :date_to)
+                        GROUP BY hotel_id
+                        ) r
+                ON h.id = r.hotel_id
+                WHERE stars = :stars
+                AND city = :city
+            """, rowMapperClass = HotelWithCntRoomsRowMapper.class)
+    List<HotelWithCntRoomsDto> findAllFreeHotelsByFilter(@Param("date_from") LocalDate dateFrom,
+                                                         @Param("date_to") LocalDate dateTo,
+                                                         @Param("stars") Short stars,
+                                                         @Param("city") String city);
 
-        return hotel;
-    }
+    @Query(value = FIND_ALL, rowMapperClass = HotelWithFullInfoByRoomsRowMapper.class)
+    Iterable<HotelWithFullInfoByRoomsDto> findAllWithFullInfoByRooms();
 
-    @Override
-    public Optional<Hotel> findById(Long id) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource().addValue("id", id);
-        List<Hotel> mayBeHotel = jdbcTemplate.query(FIND_BY_ID, parameterSource, hotelRowMapper);
-        Hotel hotel = mayBeHotel.isEmpty() ? null : mayBeHotel.get(0);
-        return Optional.ofNullable(hotel);
-    }
+    @Query(value = FIND_ALL_BY_CITY_AND_STARS, rowMapperClass = HotelWithFullInfoByRoomsRowMapper.class)
+    Iterable<HotelWithFullInfoByRoomsDto> findAllWithFullInfoByRooms(@Param("city") String city,
+                                                                     @Param("stars") Short stars);
 
-    @Override
-    public List<Hotel> findAll() {
-        return jdbcTemplate.query(FIND_ALL, hotelRowMapper);
-    }
-
-    @Override
-    public Boolean exists(Long id) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource().addValue("id", id);
-        return jdbcTemplate.query(EXISTS, parameterSource, ResultSet::next);
-    }
+    Optional<Hotel> findByHotelNameAndCity(String hotelName, String city);
 }

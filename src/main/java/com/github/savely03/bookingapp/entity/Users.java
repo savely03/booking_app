@@ -1,7 +1,11 @@
 package com.github.savely03.bookingapp.entity;
 
+import com.github.savely03.bookingapp.security.Role;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table("users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -9,10 +13,9 @@ import lombok.*;
 @ToString
 @Builder
 public class Users {
+    @Id
     private Long id;
     private String username;
-    private String fullName;
     private String password;
     private Role role;
-    private String email;
 }

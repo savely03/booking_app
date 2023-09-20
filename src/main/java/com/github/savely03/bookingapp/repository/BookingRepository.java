@@ -1,53 +1,35 @@
 package com.github.savely03.bookingapp.repository;
 
+import com.github.savely03.bookingapp.dto.BookingReadDto;
 import com.github.savely03.bookingapp.entity.Booking;
-import com.github.savely03.bookingapp.mapper.BookingRowMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import com.github.savely03.bookingapp.mapper.BookingReadDtoRowMapper;
+import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
-import static com.github.savely03.bookingapp.sql.BookingQuery.*;
-
 @Repository
-@RequiredArgsConstructor
-public class BookingRepository implements CrudRepository<Long, Booking> {
+public interface BookingRepository extends CrudRepository<Booking, Long> {
+    String FIND_ALL = """
+            SELECT b.id, room_id, user_id, date_from, date_to, username, password,
+                   role, hotel_id, room_number, room_floor, hotel_name, stars, city
+            FROM booking b
+            JOIN users u on u.id = b.user_id
+            JOIN room r on r.id = b.room_id
+            JOIN hotel h on r.hotel_id = h.id
+            """;
+    String FIND_BY_ID = FIND_ALL + " WHERE b.id = :id";
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final BookingRowMapper bookingRowMapper;
+    String FIND_ALL_BY_USERNAME = FIND_ALL + " WHERE username = :username ORDER BY date_from DESC";
 
-    @Override
-    public Booking create(Booking booking) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource()
-                .addValue("room_id", booking.getRoom().getId())
-                .addValue("user_id", booking.getUser().getId())
-                .addValue("date_from", booking.getDateFrom())
-                .addValue("date_to", booking.getDateTo());
+    @Query(value = FIND_BY_ID, rowMapperClass = BookingReadDtoRowMapper.class)
+    Optional<BookingReadDto> findByIdWithJoins(@Param("id") Long id);
 
-        Long id = jdbcTemplate.queryForObject(INSERT, parameterSource, Long.class);
-        return findById(id).orElse(null);
-    }
+    @Query(value = FIND_ALL_BY_USERNAME, rowMapperClass = BookingReadDtoRowMapper.class)
+    Iterable<BookingReadDto> findAllByUsernameWithJoins(String username);
 
-    @Override
-    public Optional<Booking> findById(Long id) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource().addValue("id", id);
-        List<Booking> mayBeBooking = jdbcTemplate.query(FIND_BY_ID, parameterSource, bookingRowMapper);
-        Booking booking = mayBeBooking.isEmpty() ? null : mayBeBooking.get(0);
-        return Optional.ofNullable(booking);
-    }
-
-    @Override
-    public List<Booking> findAll() {
-        return jdbcTemplate.query(FIND_ALL, bookingRowMapper);
-    }
-
-    @Override
-    public Boolean exists(Long id) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource().addValue("id", id);
-        return jdbcTemplate.query(EXISTS, parameterSource, ResultSet::next);
-    }
+    boolean existsByIdAndDateFromIsAfter(Long id, LocalDate localDate);
 }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookings</title>
+</head>
+<body>
+<span th:insert="~{fragment :: user-info}"></span>
+<h1>Истроия бронирований</h1>
+<div style="text-align: center" th:if="${bookings.iterator().hasNext() != false}">
+    <table>
+        <thead>
+        <tr>
+            <th>Название отеля</th>
+            <th>Количество звезд</th>
+            <th>Город</th>
+            <th>Дата заезда</th>
+            <th>Дата выезда</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="booking: ${bookings}">
+            <tr>
+                <td style="text-align: center">
+                    <p th:text="${booking.hotel().getHotelName()}">City</p>
+                </td>
+                <td>
+                    <p th:text="${booking.hotel().getStars()}">Stars</p>
+                </td>
+                <td>
+                    <p th:text="${booking.hotel().getCity()}">City</p>
+                </td>
+                <td>
+                    <p th:text="${booking.dateFrom()}">DateFrom</p>
+                </td>
+                <td>
+                    <p th:text="${booking.dateTo()}">DateTo</p>
+                </td>
+                <td th:if="${currentDate.isBefore(booking.dateFrom())}">
+                    <form th:action="@{/bookings/{id}(id=${booking.id()})}" method="post">
+                        <button type="submit">Отменить бронирование</button>
+                    </form>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</div>
+<div style="text-align: center">
+    <h4><span th:text="${bookings.iterator().hasNext() == false} ? 'Список бронирований пуст'">
+        Text
+    </span>
+    </h4>
+    <br><br>
+    <span th:insert="~{fragment :: main-page}"></span>
+</div>
+</body>
+</html>

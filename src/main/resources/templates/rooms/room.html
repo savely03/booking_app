@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Room</title>
+</head>
+<body>
+<span th:insert="~{fragment :: user-info}"></span>
+<div style="text-align: center">
+    <h1>Информация о номере</h1>
+    <form th:action="@{/rooms/{roomId}/update(roomId=${room.getId()})}" method="post">
+        <input type="hidden" name="hotelId" th:value="${room.getHotelId()}">
+        <label for="floor">Этаж:
+            <input id="floor" type="text" name="roomFloor" th:value="${room.getRoomFloor()}">
+        </label><br><br>
+        <button type="submit">Редактировать</button>
+    </form>
+    <br><br>
+    <span th:insert="~{fragment :: main-page}"></span>
+    <br><br>
+    <a th:href="@{/hotels/{hotelId}(hotelId=${room.getHotelId()})}">
+        <button>Вернуться к отелю</button>
+    </a>
+</div>
+</body>
+</html>

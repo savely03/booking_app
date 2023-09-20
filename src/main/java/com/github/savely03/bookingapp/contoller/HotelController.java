@@ -1,36 +1,70 @@
 package com.github.savely03.bookingapp.contoller;
 
+import com.github.savely03.bookingapp.dto.HotelFilterDto;
 import com.github.savely03.bookingapp.entity.Hotel;
-import com.github.savely03.bookingapp.repository.HotelRepository;
+import com.github.savely03.bookingapp.service.HotelService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/hotel")
+@Controller
+@RequestMapping("/hotels")
 @RequiredArgsConstructor
 public class HotelController {
 
-    private final HotelRepository hotelRepository;
+    private final HotelService hotelService;
 
-    @PostMapping
-    public Hotel create(@RequestBody Hotel hotel) {
-        return hotelRepository.create(hotel);
+    @PostMapping("/create")
+    @PreAuthorize("hasAuthority('MANAGER')")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String create(@Valid Hotel hotel) {
+        Hotel createdHotel = hotelService.save(hotel);
+        return "redirect:/hotels/" + createdHotel.getId();
+    }
+
+    @PostMapping("/{id}/update")
+    @PreAuthorize("hasAuthority('MANAGER')")
+    public String update(@PathVariable Long id, @Valid Hotel hotel) {
+        hotelService.update(id, hotel);
+        return "redirect:/hotels/" + id;
     }
 
     @GetMapping("/{id}")
-    public Hotel getById(@PathVariable Long id) {
-        return hotelRepository.findById(id).orElse(null);
+    @PreAuthorize("hasAuthority('MANAGER')")
+    public String findById(Model model, @PathVariable Long id) {
+        Hotel hotel = hotelService.findById(id);
+        model.addAttribute("hotel", hotel);
+        return "hotels/hotel";
     }
 
-    @GetMapping("/exists/{id}")
-    public Boolean exists(@PathVariable Long id) {
-        return hotelRepository.exists(id);
+    @GetMapping("/free")
+    public String findAllFreeByFilter(Model model, @Valid HotelFilterDto filter) {
+        model.addAttribute("hotels", hotelService.findAllFreeByFilter(filter));
+        model.addAttribute("filter", filter);
+        return "hotels/hotels-free-by-filter";
     }
 
-    @GetMapping
-    public List<Hotel> findAll() {
-        return hotelRepository.findAll();
+    @GetMapping()
+    @PreAuthorize("hasAuthority('MANAGER')")
+    public String findAllWithFullInfoByRooms(Model model,
+                                             @RequestParam(value = "city", required = false) String city,
+                                             @RequestParam(value = "stars", required = false) Short stars) {
+        model.addAttribute("hotels", hotelService.findAllWithFullInfoByRooms(city, stars));
+        return "hotels/hotels-all";
+    }
+
+    @GetMapping("/index")
+    public String hotelsIndex() {
+        return "hotels/hotels-index";
+    }
+
+    @GetMapping("/create")
+    @PreAuthorize("hasAuthority('MANAGER')")
+    public String getFormForCreateHotels() {
+        return "hotels/hotels-create";
     }
 }
