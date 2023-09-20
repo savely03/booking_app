@@ -2,7 +2,7 @@ package com.github.savely03.bookingapp.mapper;
 
 import com.github.savely03.bookingapp.dto.BookingReadDto;
 import com.github.savely03.bookingapp.entity.Hotel;
-import com.github.savely03.bookingapp.entity.Role;
+import com.github.savely03.bookingapp.security.Role;
 import com.github.savely03.bookingapp.entity.Room;
 import com.github.savely03.bookingapp.entity.Users;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,9 +24,7 @@ public class BookingReadDtoRowMapper implements RowMapper<BookingReadDto> {
         Users user = Users.builder()
                 .id(rs.getLong("user_id"))
                 .username(rs.getString("username"))
-                .fullName(rs.getString("full_name"))
                 .role(Role.valueOf(rs.getString("role")))
-                .email(rs.getString("email"))
                 .build();
         Hotel hotel = Hotel.builder()
                 .id(rs.getLong("hotel_id"))

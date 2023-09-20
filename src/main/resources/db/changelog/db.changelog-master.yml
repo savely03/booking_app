@@ -1,5 +1,5 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/base-schema-changelog.sql
+      file: db/changelog/V1__base_schema_changelog.sql
   - include:
-      file: db/changelog/generate-data-changelog.sql
+      file: db/changelog/V1__generate_data_changelog.sql

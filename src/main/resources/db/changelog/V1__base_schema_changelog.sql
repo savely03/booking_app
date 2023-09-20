@@ -4,19 +4,16 @@
 
 CREATE TABLE USERS
 (
-    id        BIGSERIAL,
-    username  VARCHAR(25) NOT NULL,
-    full_name VARCHAR(50) NOT NULL,
-    password  TEXT        NOT NULL,
-    role      VARCHAR(25) NOT NULL,
-    email     VARCHAR(50) NOT NULL
+    id       BIGSERIAL,
+    username VARCHAR(25) NOT NULL,
+    password TEXT        NOT NULL,
+    role     VARCHAR(25) NOT NULL
 );
 
 ALTER TABLE USERS
     ADD CONSTRAINT users_db_pk PRIMARY KEY (id);
 
 CREATE UNIQUE INDEX users_db_unique_username ON USERS (username);
-CREATE UNIQUE INDEX users_db_unique_email ON USERS (email);
 
 CREATE TABLE HOTEL
 (
@@ -61,3 +58,5 @@ ALTER TABLE BOOKING
     ADD CONSTRAINT booking_db_fk_on_rooms FOREIGN KEY (room_id) REFERENCES ROOM (id),
     ADD CONSTRAINT booking_db_fk_on_users FOREIGN KEY (user_id) REFERENCES USERS (id),
     ADD CONSTRAINT booking_db_check_dates CHECK ( date_from >= current_date AND date_from <= date_to );
+
+

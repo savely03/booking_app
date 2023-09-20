@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forbidden</title>
+</head>
+<body>
+<span th:insert="~{fragment :: user-info}"></span>
+<div style="text-align: center">
+    <h2>У вас нет прав к запрашиваемой странице</h2>
+    <br><br>
+    <span th:insert="~{fragment :: main-page}"></span>
+</div>
+</body>
+</html>

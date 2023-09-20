@@ -5,6 +5,7 @@
     <title>Free Hotels</title>
 </head>
 <body>
+<span th:insert="~{fragment :: user-info}"></span>
 <h1>Отели</h1>
 <div style="text-align: center" th:if="${hotels.iterator().hasNext() != false}">
     <table>
@@ -33,6 +34,7 @@
                 </td>
                 <td>
                     <form action="/bookings" method="post">
+                        <input type="hidden" th:value="${#authentication.getPrincipal().username}" name="username">
                         <input type="hidden" th:value="${hotel.id()}" name="hotelId">
                         <input type="hidden" th:value="${filter.getDateFrom()}" name="dateFrom">
                         <input type="hidden" th:value="${filter.getDateTo()}" name="dateTo">
@@ -51,9 +53,7 @@
     </span>
     </h4>
     <br><br>
-    <a href="/hotels/index">
-        <button>Вернуться на главную страницу</button>
-    </a>
+    <span th:insert="~{fragment :: main-page}"></span>
 </div>
 </body>
 </html>

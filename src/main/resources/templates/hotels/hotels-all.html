@@ -5,6 +5,7 @@
     <title>Отели</title>
 </head>
 <body>
+<span th:insert="~{fragment :: user-info}"></span>
 <div style="text-align: center">
     <h1>Отели</h1>
     <form action="/hotels">
@@ -66,9 +67,7 @@
         </tbody>
     </table>
     <br>
-    <a href="/hotels/index">
-        <button>Вернуться на главную страницу</button>
-    </a>
+    <span th:insert="~{fragment :: main-page}"></span>
 </div>
 </body>
 </html>

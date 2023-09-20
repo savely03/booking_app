@@ -10,7 +10,9 @@ import com.github.savely03.bookingapp.exception.RoomAvailableException;
 import com.github.savely03.bookingapp.repository.BookingRepository;
 import com.github.savely03.bookingapp.repository.HotelRepository;
 import com.github.savely03.bookingapp.repository.RoomRepository;
+import com.github.savely03.bookingapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,34 +26,30 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final RoomRepository roomRepository;
     private final HotelRepository hotelRepository;
-
-
-    public BookingReadDto findById(Long id) {
-        return bookingRepository.findByIdWithJoins(id).orElseThrow(BookingNotFoundException::new);
-    }
-
-    public Iterable<BookingReadDto> findAll() {
-        return bookingRepository.findAllWithJoins();
-    }
+    private final UserRepository userRepository;
 
     @Transactional
     public BookingReadDto createBooking(BookingCreateDto dto) {
         if (hotelRepository.existsById(dto.hotelId())) {
             Room room = roomRepository.findFreeRoomByHotelAndDate(dto.hotelId(), dto.getDateFrom(), dto.getDateTo())
                     .orElseThrow(RoomAvailableException::new);
-            Booking booking = bookingRepository.save(Booking.builder()
-                    .userId(1L) // хард код
-                    .dateFrom(dto.getDateFrom())
-                    .dateTo(dto.getDateTo())
-                    .roomId(room.getId())
-                    .build());
+            Booking booking = bookingRepository.save(
+                    Booking.builder()
+                            .userId(userRepository.findByUsername(dto.username())
+                                    .orElseThrow(() -> new UsernameNotFoundException(dto.username()))
+                                    .getId())
+                            .dateFrom(dto.getDateFrom())
+                            .dateTo(dto.getDateTo())
+                            .roomId(room.getId())
+                            .build()
+            );
             return bookingRepository.findByIdWithJoins(booking.getId()).orElse(null);
         }
         throw new HotelNotFoundException();
     }
 
-    public Iterable<BookingReadDto> findAllByUserId(Long userId) {
-        return bookingRepository.findAllByUserId(userId);
+    public Iterable<BookingReadDto> findAllByUsername(String username) {
+        return bookingRepository.findAllByUsernameWithJoins(username);
     }
 
     @Transactional

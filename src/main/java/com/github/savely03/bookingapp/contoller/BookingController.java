@@ -1,10 +1,12 @@
 package com.github.savely03.bookingapp.contoller;
 
 import com.github.savely03.bookingapp.dto.BookingCreateDto;
-import com.github.savely03.bookingapp.dto.BookingReadDto;
 import com.github.savely03.bookingapp.service.BookingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,26 +21,22 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public String createBooking(Model model, @Valid BookingCreateDto dto) {
         model.addAttribute("booking", bookingService.createBooking(dto));
         return "bookings/bookings-created";
     }
 
-    @GetMapping("/{id}")
-    public BookingReadDto findById(@PathVariable Long id) {
-        return bookingService.findById(id);
-    }
-
     @PostMapping("/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         bookingService.deleteById(id);
-        return "redirect:/bookings?userId=1"; // хард код
+        return "redirect:/bookings?userId=" + userDetails.getUsername();
     }
 
     @GetMapping
-    public String findAllByUserId(Model model, @RequestParam Long userId) {
+    public String findAllByUserId(Model model, @RequestParam String username) {
         model.addAttribute("currentDate", LocalDate.now());
-        model.addAttribute("bookings", bookingService.findAllByUserId(userId));
+        model.addAttribute("bookings", bookingService.findAllByUsername(username));
         return "bookings/bookings-history";
     }
 }

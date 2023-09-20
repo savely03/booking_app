@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset 2-generate-data:SavelyDomnikov
+--changeset 1-generate-data:SavelyDomnikov
 
 INSERT INTO hotel (hotel_name, stars, city)
 VALUES ('hotel_1', 5, 'Moscow'),
@@ -22,8 +22,9 @@ VALUES (1, 1, 5),
        (5, 1, 1),
        (5, 2, 2);
 
-INSERT INTO users (username, full_name, password, role, email)
-VALUES ('Ivan03', 'Ivan Ivanov', 'qwerty', 'USER', 'ivan@mail.ru');
+INSERT INTO users (username, password, role)
+VALUES ('user@mail.ru', '$2a$10$5ILUab1I2R3676m70s1HuuXrfqGHRcFQIB3I0Etk1hNuw/WlX.xwG', 'USER'),
+       ('manager@mail.ru', '$2a$10$5ILUab1I2R3676m70s1HuuXrfqGHRcFQIB3I0Etk1hNuw/WlX.xwG', 'MANAGER');
 
 INSERT INTO booking (room_id, user_id, date_from, date_to)
 VALUES (1, 1, '2023.10.01', '2023.10.05'),

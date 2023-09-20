@@ -5,6 +5,8 @@ import com.github.savely03.bookingapp.entity.Hotel;
 import com.github.savely03.bookingapp.service.HotelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,18 +19,22 @@ public class HotelController {
     private final HotelService hotelService;
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('MANAGER')")
+    @ResponseStatus(HttpStatus.CREATED)
     public String create(@Valid Hotel hotel) {
         Hotel createdHotel = hotelService.save(hotel);
         return "redirect:/hotels/" + createdHotel.getId();
     }
 
     @PostMapping("/{id}/update")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public String update(@PathVariable Long id, @Valid Hotel hotel) {
         hotelService.update(id, hotel);
         return "redirect:/hotels/" + id;
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public String findById(Model model, @PathVariable Long id) {
         Hotel hotel = hotelService.findById(id);
         model.addAttribute("hotel", hotel);
@@ -43,6 +49,7 @@ public class HotelController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasAuthority('MANAGER')")
     public String findAllWithFullInfoByRooms(Model model,
                                              @RequestParam(value = "city", required = false) String city,
                                              @RequestParam(value = "stars", required = false) Short stars) {
@@ -56,8 +63,8 @@ public class HotelController {
     }
 
     @GetMapping("/create")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public String getFormForCreateHotels() {
         return "hotels/hotels-create";
     }
-
 }

@@ -5,6 +5,7 @@
     <title>Создание отеля</title>
 </head>
 <body>
+<span th:insert="~{fragment :: user-info}"></span>
 <div style="text-align: center">
     <h1>Создание отеля</h1>
     <form action="/hotels/create" method="post">
@@ -29,9 +30,7 @@
         <button type="submit">Создать</button>
     </form>
     <br>
-    <a href="/hotels/index">
-        <button>Вернуться на главную страницу</button>
-    </a>
+    <span th:insert="~{fragment :: main-page}"></span>
 </div>
 </body>
 </html>

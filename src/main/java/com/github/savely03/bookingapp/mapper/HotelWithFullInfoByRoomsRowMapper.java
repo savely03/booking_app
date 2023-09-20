@@ -2,10 +2,12 @@ package com.github.savely03.bookingapp.mapper;
 
 import com.github.savely03.bookingapp.dto.HotelWithFullInfoByRoomsDto;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class HotelWithFullInfoByRoomsRowMapper implements RowMapper<HotelWithFullInfoByRoomsDto> {
 
     @Override

@@ -10,7 +10,8 @@ import java.time.LocalDate;
 @BookingCreateDtoConstraint
 @DatesInfoConstraint
 @Builder
-public record BookingCreateDto(@NotNull(message = "Отель - обязательное поле") Long hotelId,
+public record BookingCreateDto(@NotNull String username,
+                               @NotNull(message = "Отель - обязательное поле") Long hotelId,
                                LocalDate dateFrom,
                                LocalDate dateTo) implements DatesInfo {
     @Override

@@ -5,6 +5,7 @@
     <title>Room</title>
 </head>
 <body>
+<span th:insert="~{fragment :: user-info}"></span>
 <div style="text-align: center">
     <h1>Информация о номере</h1>
     <form th:action="@{/rooms/{roomId}/update(roomId=${room.getId()})}" method="post">
@@ -15,9 +16,7 @@
         <button type="submit">Редактировать</button>
     </form>
     <br><br>
-    <a href="/hotels/index">
-        <button>Вернуться на главную страницу</button>
-    </a>
+    <span th:insert="~{fragment :: main-page}"></span>
     <br><br>
     <a th:href="@{/hotels/{hotelId}(hotelId=${room.getHotelId()})}">
         <button>Вернуться к отелю</button>
