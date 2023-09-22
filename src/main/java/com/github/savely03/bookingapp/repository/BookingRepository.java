@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface BookingRepository extends CrudRepository<Booking, Long> {
     String FIND_ALL = """
-            SELECT b.id, room_id, user_id, date_from, date_to, username, password,
+            SELECT b.id, room_id, user_id, date_from, date_to, username, password, email,
                    role, hotel_id, room_number, room_floor, hotel_name, stars, city
             FROM booking b
             JOIN users u on u.id = b.user_id

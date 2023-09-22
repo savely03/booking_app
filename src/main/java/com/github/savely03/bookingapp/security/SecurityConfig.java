@@ -13,10 +13,17 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    private static final String[] AUTH_WHITELIST = {
+            "/login"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(AUTH_WHITELIST)
+                        .permitAll()
                         .anyRequest()
                         .authenticated()
                 )

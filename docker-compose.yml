@@ -2,10 +2,22 @@ version: '3'
 services:
   psql:
     image: postgres:15.3
-    container_name: booking
+    container_name: booking_db
     environment:
       POSTGRES_DB: booking_db
       POSTGRES_USER: user
       POSTGRES_PASSWORD: qwerty
     ports:
       - '5436:5432'
+
+  booking:
+    build: ./
+    container_name: booking_app
+    ports:
+      - '8080:8080'
+    depends_on:
+      - psql
+    command:
+      - java -jar booking.jar
+    environment:
+      SPRING_PROFILES_ACTIVE: docker

@@ -7,6 +7,7 @@ CREATE TABLE USERS
     id       BIGSERIAL,
     username VARCHAR(25) NOT NULL,
     password TEXT        NOT NULL,
+    email    VARCHAR(50) NOT NULL,
     role     VARCHAR(25) NOT NULL
 );
 
@@ -14,6 +15,7 @@ ALTER TABLE USERS
     ADD CONSTRAINT users_db_pk PRIMARY KEY (id);
 
 CREATE UNIQUE INDEX users_db_unique_username ON USERS (username);
+CREATE UNIQUE INDEX users_db_unique_email ON USERS (email);
 
 CREATE TABLE HOTEL
 (
