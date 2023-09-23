@@ -17,6 +17,13 @@ public class RoomValidator implements ConstraintValidator<RoomConstraint, Room> 
 
     @Override
     public boolean isValid(Room room, ConstraintValidatorContext constraintValidatorContext) {
+        if (roomService.existsById(room.getId())) {
+            Room foundRoom = roomService.findById(room.getId());
+            if (room.getHotelId().equals(foundRoom.getHotelId()) &&
+                room.getRoomNumber().equals(foundRoom.getRoomNumber())) {
+                return true;
+            }
+        }
         return hotelService.existsById(room.getHotelId()) &&
                roomService.findByHotelIdAndRoomNumber(room.getHotelId(), room.getRoomNumber()).isEmpty();
     }

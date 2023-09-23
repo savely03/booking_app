@@ -24,6 +24,7 @@ public class BookingReadDtoRowMapper implements RowMapper<BookingReadDto> {
         Users user = Users.builder()
                 .id(rs.getLong("user_id"))
                 .username(rs.getString("username"))
+                .email(rs.getString("email"))
                 .role(Role.valueOf(rs.getString("role")))
                 .build();
         Hotel hotel = Hotel.builder()

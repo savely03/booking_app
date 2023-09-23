@@ -22,13 +22,13 @@ VALUES (1, 1, 5),
        (5, 1, 1),
        (5, 2, 2);
 
-INSERT INTO users (username, password, role)
-VALUES ('user@mail.ru', '$2a$10$5ILUab1I2R3676m70s1HuuXrfqGHRcFQIB3I0Etk1hNuw/WlX.xwG', 'USER'),
-       ('manager@mail.ru', '$2a$10$5ILUab1I2R3676m70s1HuuXrfqGHRcFQIB3I0Etk1hNuw/WlX.xwG', 'MANAGER');
+INSERT INTO users (username, email, password, role)
+VALUES ('user', 'user@mail.ru', '$2a$10$5ILUab1I2R3676m70s1HuuXrfqGHRcFQIB3I0Etk1hNuw/WlX.xwG', 'USER'),
+       ('manager', 'manager@mail.ru', '$2a$10$5ILUab1I2R3676m70s1HuuXrfqGHRcFQIB3I0Etk1hNuw/WlX.xwG', 'MANAGER');
 
 INSERT INTO booking (room_id, user_id, date_from, date_to)
 VALUES (1, 1, '2023.10.01', '2023.10.05'),
        (2, 1, '2023.10.10', '2023.10.11'),
-       (3, 1, '2023.09.20', '2023.09.22'),
+       (3, 1, '2023.09.25', '2023.09.30'),
        (4, 1, '2023.11.01', '2023.11.07'),
        (5, 1, '2023.12.01', '2023.12.11')

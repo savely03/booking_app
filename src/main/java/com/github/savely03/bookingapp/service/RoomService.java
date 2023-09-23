@@ -43,4 +43,8 @@ public class RoomService {
     public Optional<Room> findByHotelIdAndRoomNumber(Long hotelId, Short roomNumber) {
         return roomRepository.findByHotelIdAndRoomNumber(hotelId, roomNumber);
     }
+
+    public boolean existsById(Long id) {
+        return roomRepository.existsById(id);
+    }
 }

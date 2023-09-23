@@ -5,11 +5,13 @@ import com.github.savely03.bookingapp.entity.Room;
 import com.github.savely03.bookingapp.service.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/rooms")
@@ -20,7 +22,6 @@ public class RoomController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('MANAGER')")
-    @ResponseStatus(HttpStatus.CREATED)
     public String create(@Valid Room room) {
         Room createdRoom = roomService.create(room);
         return "redirect:/rooms/" + createdRoom.getId();

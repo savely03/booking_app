@@ -5,7 +5,6 @@ import com.github.savely03.bookingapp.entity.Hotel;
 import com.github.savely03.bookingapp.service.HotelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +19,6 @@ public class HotelController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('MANAGER')")
-    @ResponseStatus(HttpStatus.CREATED)
     public String create(@Valid Hotel hotel) {
         Hotel createdHotel = hotelService.save(hotel);
         return "redirect:/hotels/" + createdHotel.getId();
