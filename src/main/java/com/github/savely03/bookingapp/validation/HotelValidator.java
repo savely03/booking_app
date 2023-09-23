@@ -15,6 +15,13 @@ public class HotelValidator implements ConstraintValidator<HotelConstraint, Hote
 
     @Override
     public boolean isValid(Hotel hotel, ConstraintValidatorContext constraintValidatorContext) {
+        if (hotel.getId() != null && hotelService.existsById(hotel.getId())) {
+            Hotel foundHotel = hotelService.findById(hotel.getId());
+            if (hotel.getHotelName().equals(foundHotel.getHotelName()) &&
+                hotel.getCity().equals(foundHotel.getCity())) {
+                return true;
+            }
+        }
         return hotelService.findByHotelNameAndCity(hotel.getHotelName(), hotel.getCity()).isEmpty();
     }
 }

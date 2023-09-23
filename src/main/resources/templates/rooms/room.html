@@ -9,6 +9,7 @@
 <div style="text-align: center">
     <h1>Информация о номере</h1>
     <form th:action="@{/rooms/{roomId}/update(roomId=${room.getId()})}" method="post">
+        <input type="hidden" name="roomNumber" th:value="${room.getRoomNumber()}">
         <input type="hidden" name="hotelId" th:value="${room.getHotelId()}">
         <label for="floor">Этаж:
             <input id="floor" type="text" name="roomFloor" th:value="${room.getRoomFloor()}">
