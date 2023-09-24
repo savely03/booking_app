@@ -33,7 +33,7 @@
                     <p th:text="${hotel.cntRooms()}">Rooms</p>
                 </td>
                 <td>
-                    <form action="/bookings" method="post">
+                    <form th:action="@{/bookings}" method="post">
                         <input type="hidden" th:value="${#authentication.getPrincipal().username}" name="username">
                         <input type="hidden" th:value="${hotel.id()}" name="hotelId">
                         <input type="hidden" th:value="${filter.getDateFrom()}" name="dateFrom">

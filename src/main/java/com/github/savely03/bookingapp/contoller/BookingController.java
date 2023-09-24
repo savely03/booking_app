@@ -25,10 +25,10 @@ public class BookingController {
         return "bookings/bookings-created";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         bookingService.deleteById(id);
-        return "redirect:/bookings?userId=" + userDetails.getUsername();
+        return "redirect:/bookings?username=" + userDetails.getUsername();
     }
 
     @GetMapping
