@@ -28,7 +28,7 @@
     </form>
 </div>
 <br><br>
-<div style="text-align: center">
+<div th:if="${hotels.iterator().hasNext() != false}" style="text-align: center">
     <table>
         <thead>
         <tr>
@@ -66,7 +66,13 @@
         </div>
         </tbody>
     </table>
-    <br>
+</div>
+<br>
+<div style="text-align: center">
+    <h4><span th:text="${hotels.iterator().hasNext() == false} ? 'По заданным параметрам нет отелей'">
+        Text
+    </span>
+    </h4>
     <span th:insert="~{fragment :: main-page}"></span>
 </div>
 </body>

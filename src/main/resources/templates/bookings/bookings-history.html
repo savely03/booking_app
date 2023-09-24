@@ -37,7 +37,7 @@
                     <p th:text="${booking.dateTo()}">DateTo</p>
                 </td>
                 <td th:if="${currentDate.isBefore(booking.dateFrom())}">
-                    <form th:action="@{/bookings/{id}(id=${booking.id()})}" method="post">
+                    <form th:action="@{/bookings/{id}/delete(id=${booking.id()})}" method="post">
                         <button type="submit">Отменить бронирование</button>
                     </form>
                 </td>

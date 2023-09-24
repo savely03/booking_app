@@ -8,7 +8,7 @@
 <span th:insert="~{fragment :: user-info}"></span>
 <div style="text-align: center">
     <h1>Создание отеля</h1>
-    <form action="/hotels/create" method="post">
+    <form th:action="@{/hotels/create}" method="post">
         <label for="hotelName">Название отеля:
             <input id="hotelName" type="text" name="hotelName">
         </label><br><br>

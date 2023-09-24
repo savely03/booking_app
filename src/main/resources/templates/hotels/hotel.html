@@ -23,7 +23,7 @@
     </form>
     <br><br>
     <h4>Добавление номера</h4>
-    <form action="/rooms/create" method="post">
+    <form th:action="@{/rooms/create}" method="post">
         <input type="hidden" name="hotelId" th:value="${hotel.getId()}">
         <label for="roomNumber">Номер:
             <input id="roomNumber" type="text" name="roomNumber">
