@@ -19,11 +19,15 @@ public class LoggingAspect {
     }
 
     @Pointcut("execution(public * *.*(..))")
-    public void isAnyServiceMethod() {
+    public void isAnyMethod() {
     }
 
-    @Around("isServiceLayer() && isAnyServiceMethod()")
-    public Object addLogging(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Around("isServiceLayer() && isAnyMethod()")
+    public Object addLoggingInServiceLayer(ProceedingJoinPoint joinPoint) throws Throwable {
+        return addLogging(joinPoint);
+    }
+
+    private Object addLogging(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = getMethodName(joinPoint);
         String targetClassName = getTargetClassName(joinPoint);
 
