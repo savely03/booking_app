@@ -8,11 +8,9 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("room")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@ToString
 @Builder
 @RoomConstraint
 public class Room { // Dto на создание/изменение не стал делать, так как полностью совпадает с сущностью

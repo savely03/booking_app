@@ -12,6 +12,8 @@ import com.github.savely03.bookingapp.repository.HotelRepository;
 import com.github.savely03.bookingapp.repository.RoomRepository;
 import com.github.savely03.bookingapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,7 @@ public class BookingService {
     private final UserRepository userRepository;
 
     @Transactional
+    @CacheEvict(value = "bookings", key = "@authenticationProvider.getAuthentication().getName()")
     public BookingReadDto createBooking(BookingCreateDto dto) {
         if (hotelRepository.existsById(dto.hotelId())) {
             Room room = roomRepository.findFreeRoomByHotelAndDate(dto.hotelId(), dto.getDateFrom(), dto.getDateTo())
@@ -47,11 +50,13 @@ public class BookingService {
         throw new HotelNotFoundException();
     }
 
+    @Cacheable(value = "bookings")
     public Iterable<BookingReadDto> findAllByUsername(String username) {
         return bookingRepository.findAllByUsernameWithJoins(username);
     }
 
     @Transactional
+    @CacheEvict(value = "bookings", key = "@authenticationProvider.getAuthentication().getName()")
     public void deleteById(Long id) {
         if (bookingRepository.existsByIdAndDateFromIsAfter(id, LocalDate.now())) {
             bookingRepository.deleteById(id);

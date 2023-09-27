@@ -20,7 +20,7 @@ public class HotelController {
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('MANAGER')")
     public String create(@Valid Hotel hotel) {
-        Hotel createdHotel = hotelService.save(hotel);
+        Hotel createdHotel = hotelService.create(hotel);
         return "redirect:/hotels/" + createdHotel.getId();
     }
 

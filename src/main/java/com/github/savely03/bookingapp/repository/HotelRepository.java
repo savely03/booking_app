@@ -17,7 +17,7 @@ import java.util.Optional;
 @Repository
 public interface HotelRepository extends CrudRepository<Hotel, Long> {
 
-    String FIND_ALL = """
+    String FIND_ALL_WITH_FULL_INFO = """
             SELECT h.id,
                    h.hotel_name,
                    h.city,
@@ -34,7 +34,8 @@ public interface HotelRepository extends CrudRepository<Hotel, Long> {
             GROUP BY h.id, h.hotel_name, h.city
             """;
 
-    String FIND_ALL_BY_CITY_AND_STARS = FIND_ALL + " HAVING h.city = :city AND h.stars = :stars";
+    String FIND_ALL_WITH_FULL_INFO_BY_CITY_AND_STARS =
+            FIND_ALL_WITH_FULL_INFO + " HAVING h.city = :city AND h.stars = :stars";
 
     @Query(value = """
             SELECT id, hotel_name, stars, city, hotel_id, cnt_rooms
@@ -59,12 +60,19 @@ public interface HotelRepository extends CrudRepository<Hotel, Long> {
                                                          @Param("stars") Short stars,
                                                          @Param("city") String city);
 
-    @Query(value = FIND_ALL, rowMapperClass = HotelWithFullInfoByRoomsRowMapper.class)
+    @Query(value = FIND_ALL_WITH_FULL_INFO, rowMapperClass = HotelWithFullInfoByRoomsRowMapper.class)
     Iterable<HotelWithFullInfoByRoomsDto> findAllWithFullInfoByRooms();
 
-    @Query(value = FIND_ALL_BY_CITY_AND_STARS, rowMapperClass = HotelWithFullInfoByRoomsRowMapper.class)
+    @Query(value = FIND_ALL_WITH_FULL_INFO_BY_CITY_AND_STARS, rowMapperClass = HotelWithFullInfoByRoomsRowMapper.class)
     Iterable<HotelWithFullInfoByRoomsDto> findAllWithFullInfoByRooms(@Param("city") String city,
                                                                      @Param("stars") Short stars);
 
-    Optional<Hotel> findByHotelNameAndCity(String hotelName, String city);
+    @Query("""
+            SELECT id, hotel_name, stars, city
+            FROM hotel
+            WHERE hotel_name = :hotel_name
+            AND city = :city
+            """)
+    Optional<Hotel> findByHotelNameAndCity(@Param("hotel_name") String hotelName,
+                                           @Param("city") String city);
 }

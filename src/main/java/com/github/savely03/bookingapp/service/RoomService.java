@@ -4,10 +4,12 @@ import com.github.savely03.bookingapp.entity.Room;
 import com.github.savely03.bookingapp.exception.RoomNotFoundException;
 import com.github.savely03.bookingapp.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -22,23 +24,26 @@ public class RoomService {
     }
 
     @Transactional
-    public void update(Long id, Room room) {
+    @Caching(
+            put = {
+                    @CachePut(value = "rooms", key = "#id"),
+                    @CachePut(value = "roomsByHotelIdAndRoomNumber", key = "{#room.hotelId, #room.roomNumber}")
+            })
+    public Room update(Long id, Room room) {
         if (roomRepository.existsById(id)) {
             room.setId(id);
             roomRepository.save(room);
-            return;
+            return room;
         }
         throw new RoomNotFoundException();
     }
 
+    @Cacheable(value = "rooms")
     public Room findById(Long id) {
         return roomRepository.findById(id).orElseThrow(RoomNotFoundException::new);
     }
 
-    public boolean existsFreeRoomByHotelAndDate(Long hotelId, LocalDate dateFrom, LocalDate dateTo) {
-        return roomRepository.existsFreeRoomByHotelAndDate(hotelId, dateFrom, dateTo);
-    }
-
+    @Cacheable(value = "roomsByHotelIdAndRoomNumber")
     public Optional<Room> findByHotelIdAndRoomNumber(Long hotelId, Short roomNumber) {
         return roomRepository.findByHotelIdAndRoomNumber(hotelId, roomNumber);
     }
