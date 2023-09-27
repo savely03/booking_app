@@ -8,11 +8,9 @@ import org.springframework.data.relational.core.mapping.Table;
 import java.time.LocalDate;
 
 @Table("booking")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@ToString
 @Builder
 public class Booking {
     @Id

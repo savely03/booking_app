@@ -5,7 +5,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -13,20 +12,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LoggingAspect {
 
-    // Данные pointcuts можно вынести в одельный аспект
-    @Pointcut("within(com.github.savely03.bookingapp.service.*)")
-    public void isServiceLayer() {
-    }
-
-    @Pointcut("execution(public * *.*(..))")
-    public void isAnyMethod() {
-    }
-
-    @Around("isServiceLayer() && isAnyMethod()")
-    public Object addLoggingInServiceLayer(ProceedingJoinPoint joinPoint) throws Throwable {
-        return addLogging(joinPoint);
-    }
-
+    @Around("com.github.savely03.bookingapp.aop.CommonPointcuts.isServiceLayer() && " +
+            "com.github.savely03.bookingapp.aop.CommonPointcuts.isAnyMethod()")
     private Object addLogging(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = getMethodName(joinPoint);
         String targetClassName = getTargetClassName(joinPoint);

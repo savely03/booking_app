@@ -11,11 +11,9 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("hotel")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@ToString
 @Builder
 @HotelConstraint
 public class Hotel { // Dto на создание/изменение не стал делать, так как полностью совпадает с сущностью
