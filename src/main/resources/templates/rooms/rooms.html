@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Номера</title>
+    <style>
+        table {
+            width: 300px;
+            margin: auto;
+        }
+
+        td {
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${rooms.iterator().hasNext() != false}" style="text-align: center">
+    <h1>Номера</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Номер</th>
+            <th>Этаж</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="room: ${rooms}">
+            <tr>
+                <td>
+                    <p th:text="${room.getRoomNumber()}">RoomNumber</p>
+                </td>
+                <td>
+                    <p th:text="${room.getRoomFloor()}">RoomFloor</p>
+                </td>
+                <td>
+                    <a th:href="@{/rooms/{id}(id=${room.getId()})}">
+                        <button>
+                            Подробнее
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</div>
+<br>
+<div style="text-align: center">
+    <h4><span th:text="${rooms.iterator().hasNext() == false} ? 'По заданным параметрам нет отелей'">
+        Text
+    </span>
+    </h4>
+    <a href="/hotels">
+        <button>Вернуться к списку отелей</button>
+    </a>
+    <br><br>
+    <span th:insert="~{fragment :: main-page}"></span>
+</div>
+</body>
+</html>

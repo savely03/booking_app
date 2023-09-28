@@ -29,7 +29,7 @@ public class BookingService {
     private final HotelRepository hotelRepository;
     private final UserRepository userRepository;
 
-    @Transactional
+    @Transactional(timeout = 3000)
     @CacheEvict(value = "bookings", key = "@authenticationProvider.getAuthentication().getName()")
     public BookingReadDto createBooking(BookingCreateDto dto) {
         if (hotelRepository.existsById(dto.hotelId())) {

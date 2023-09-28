@@ -62,12 +62,16 @@
                         <button>Подробнее</button>
                     </a>
                 </td>
+                <td>
+                    <a th:href="@{/rooms(hotelId=${hotel.id()})}">
+                        <button>Номера</button>
+                    </a>
+                </td>
             </tr>
         </div>
         </tbody>
     </table>
 </div>
-<br>
 <div style="text-align: center">
     <h4><span th:text="${hotels.iterator().hasNext() == false} ? 'По заданным параметрам нет отелей'">
         Text

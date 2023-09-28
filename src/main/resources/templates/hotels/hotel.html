@@ -21,6 +21,10 @@
         <br><br>
         <button type="submit">Редактировать</button>
     </form>
+    <br>
+    <a th:href="@{/rooms(hotelId=${hotel.getId()})}">
+        <button>Номера</button>
+    </a>
     <br><br>
     <h4>Добавление номера</h4>
     <form th:action="@{/rooms/create}" method="post">

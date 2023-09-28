@@ -8,10 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/rooms")
@@ -40,5 +39,13 @@ public class RoomController {
         Room room = roomService.findById(id);
         model.addAttribute("room", room);
         return "rooms/room";
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAuthority('MANAGER')")
+    public String findByHotelId(Model model, @RequestParam("hotelId") Long hotelId) {
+        List<Room> rooms = roomService.findByHotelId(hotelId);
+        model.addAttribute("rooms", rooms);
+        return "/rooms/rooms";
     }
 }
