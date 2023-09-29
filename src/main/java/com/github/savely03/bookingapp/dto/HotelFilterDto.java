@@ -1,6 +1,6 @@
 package com.github.savely03.bookingapp.dto;
 
-import com.github.savely03.bookingapp.validation.DatesInfoConstraint;
+import com.github.savely03.bookingapp.validation.annotation.DatesInfoConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

@@ -1,7 +1,7 @@
 package com.github.savely03.bookingapp.contoller;
 
+import com.github.savely03.bookingapp.dto.HotelDto;
 import com.github.savely03.bookingapp.dto.HotelFilterDto;
-import com.github.savely03.bookingapp.entity.Hotel;
 import com.github.savely03.bookingapp.service.HotelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,23 +19,23 @@ public class HotelController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('MANAGER')")
-    public String create(@Valid Hotel hotel) {
-        Hotel createdHotel = hotelService.create(hotel);
-        return "redirect:/hotels/" + createdHotel.getId();
+    public String create(@Valid HotelDto hotelDto) {
+        HotelDto createdHotel = hotelService.create(hotelDto);
+        return "redirect:/hotels/" + createdHotel.id();
     }
 
     @PostMapping("/{id}/update")
     @PreAuthorize("hasAuthority('MANAGER')")
-    public String update(@PathVariable Long id, @Valid Hotel hotel) {
-        hotelService.update(id, hotel);
+    public String update(@PathVariable Long id, @Valid HotelDto hotelDto) {
+        hotelService.update(id, hotelDto);
         return "redirect:/hotels/" + id;
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('MANAGER')")
     public String findById(Model model, @PathVariable Long id) {
-        Hotel hotel = hotelService.findById(id);
-        model.addAttribute("hotel", hotel);
+        HotelDto hotelDto = hotelService.findById(id);
+        model.addAttribute("hotel", hotelDto);
         return "hotels/hotel";
     }
 

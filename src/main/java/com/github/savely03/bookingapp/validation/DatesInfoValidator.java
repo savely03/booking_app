@@ -1,6 +1,7 @@
 package com.github.savely03.bookingapp.validation;
 
 import com.github.savely03.bookingapp.dto.DatesInfo;
+import com.github.savely03.bookingapp.validation.annotation.DatesInfoConstraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.stereotype.Component;

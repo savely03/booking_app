@@ -29,13 +29,13 @@
         <div th:each="room: ${rooms}">
             <tr>
                 <td>
-                    <p th:text="${room.getRoomNumber()}">RoomNumber</p>
+                    <p th:text="${room.roomNumber()}">RoomNumber</p>
                 </td>
                 <td>
-                    <p th:text="${room.getRoomFloor()}">RoomFloor</p>
+                    <p th:text="${room.roomFloor()}">RoomFloor</p>
                 </td>
                 <td>
-                    <a th:href="@{/rooms/{id}(id=${room.getId()})}">
+                    <a th:href="@{/rooms/{id}(id=${room.id()})}">
                         <button>
                             Подробнее
                         </button>

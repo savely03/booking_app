@@ -1,7 +1,9 @@
 package com.github.savely03.bookingapp.service;
 
+import com.github.savely03.bookingapp.dto.RoomDto;
 import com.github.savely03.bookingapp.entity.Room;
 import com.github.savely03.bookingapp.exception.RoomNotFoundException;
+import com.github.savely03.bookingapp.mapper.mapstruct.RoomMapper;
 import com.github.savely03.bookingapp.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -19,43 +21,47 @@ import java.util.Optional;
 public class RoomService {
 
     private final RoomRepository roomRepository;
+    private final RoomMapper roomMapper;
 
     @Transactional
-    @CacheEvict(value = "roomsByHotelId", key = "#room.hotelId")
-    public Room create(Room room) {
-        return roomRepository.save(room);
+    @CacheEvict(value = "roomsByHotelId", key = "#roomDto.hotelId")
+    public RoomDto create(RoomDto roomDto) {
+        return roomMapper.toDto(roomRepository.save(roomMapper.toEntity(roomDto)));
     }
 
     @Transactional
     @Caching(
             put = {
                     @CachePut(value = "rooms", key = "#id"),
-                    @CachePut(value = "roomsByHotelIdAndRoomNumber", key = "{#room.hotelId, #room.roomNumber}")
+                    @CachePut(value = "roomsByHotelIdAndRoomNumber", key = "{#roomDto.hotelId, #roomDto.roomNumber}")
             },
-            evict = @CacheEvict(value = "roomsByHotelId", key = "#room.hotelId")
+            evict = @CacheEvict(value = "roomsByHotelId", key = "#roomDto.hotelId")
     )
-    public Room update(Long id, Room room) {
+    public RoomDto update(Long id, RoomDto roomDto) {
         if (roomRepository.existsById(id)) {
+            Room room = roomMapper.toEntity(roomDto);
             room.setId(id);
             roomRepository.save(room);
-            return room;
+            return roomDto;
         }
         throw new RoomNotFoundException();
     }
 
     @Cacheable(value = "rooms")
-    public Room findById(Long id) {
-        return roomRepository.findById(id).orElseThrow(RoomNotFoundException::new);
+    public RoomDto findById(Long id) {
+        return roomMapper.toDto(roomRepository.findById(id).orElseThrow(RoomNotFoundException::new));
     }
 
     @Cacheable(value = "roomsByHotelIdAndRoomNumber")
-    public Optional<Room> findByHotelIdAndRoomNumber(Long hotelId, Short roomNumber) {
-        return roomRepository.findByHotelIdAndRoomNumber(hotelId, roomNumber);
+    public Optional<RoomDto> findByHotelIdAndRoomNumber(Long hotelId, Short roomNumber) {
+        return roomRepository.findByHotelIdAndRoomNumber(hotelId, roomNumber).map(roomMapper::toDto);
     }
 
     @Cacheable(value = "roomsByHotelId")
-    public List<Room> findByHotelId(Long hotelId) {
-        return roomRepository.findByHotelIdOrderByRoomNumber(hotelId);
+    public List<RoomDto> findByHotelId(Long hotelId) {
+        return roomRepository.findByHotelIdOrderByRoomNumber(hotelId).stream()
+                .map(roomMapper::toDto)
+                .toList();
     }
 
     public boolean existsById(Long id) {

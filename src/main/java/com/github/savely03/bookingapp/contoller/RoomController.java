@@ -1,7 +1,7 @@
 package com.github.savely03.bookingapp.contoller;
 
 
-import com.github.savely03.bookingapp.entity.Room;
+import com.github.savely03.bookingapp.dto.RoomDto;
 import com.github.savely03.bookingapp.service.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,22 +21,22 @@ public class RoomController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('MANAGER')")
-    public String create(@Valid Room room) {
-        Room createdRoom = roomService.create(room);
-        return "redirect:/rooms/" + createdRoom.getId();
+    public String create(@Valid RoomDto roomDto) {
+        RoomDto createdRoom = roomService.create(roomDto);
+        return "redirect:/rooms/" + createdRoom.id();
     }
 
     @PostMapping("/{id}/update")
     @PreAuthorize("hasAuthority('MANAGER')")
-    public String update(@PathVariable Long id, @Valid Room room) {
-        roomService.update(id, room);
+    public String update(@PathVariable Long id, @Valid RoomDto roomDto) {
+        roomService.update(id, roomDto);
         return "redirect:/rooms/" + id;
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('MANAGER')")
     public String findById(Model model, @PathVariable Long id) {
-        Room room = roomService.findById(id);
+        RoomDto room = roomService.findById(id);
         model.addAttribute("room", room);
         return "rooms/room";
     }
@@ -44,7 +44,7 @@ public class RoomController {
     @GetMapping
     @PreAuthorize("hasAuthority('MANAGER')")
     public String findByHotelId(Model model, @RequestParam("hotelId") Long hotelId) {
-        List<Room> rooms = roomService.findByHotelId(hotelId);
+        List<RoomDto> rooms = roomService.findByHotelId(hotelId);
         model.addAttribute("rooms", rooms);
         return "/rooms/rooms";
     }
