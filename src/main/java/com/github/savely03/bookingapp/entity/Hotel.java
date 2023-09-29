@@ -13,7 +13,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Hotel {
+public class Hotel implements BaseEntity<Long> {
     @Id
     private Long id;
     @Column("hotel_name")

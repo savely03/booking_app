@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Booking {
+public class Booking implements BaseEntity<Long> {
     @Id
     private Long id;
     @Column("room_id")

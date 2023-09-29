@@ -28,13 +28,15 @@ public class BookingService {
     private final RoomRepository roomRepository;
     private final HotelRepository hotelRepository;
     private final UserRepository userRepository;
+    private final BookingNotFoundException bookingNotFoundException;
+    private final RoomAvailableException roomAvailableException;
 
     @Transactional(timeout = 3000)
     @CacheEvict(value = "bookings", key = "@authenticationProvider.getAuthentication().getName()")
     public BookingReadDto createBooking(BookingCreateDto dto) {
         if (hotelRepository.existsById(dto.hotelId())) {
             Room room = roomRepository.findFreeRoomByHotelAndDate(dto.hotelId(), dto.getDateFrom(), dto.getDateTo())
-                    .orElseThrow(RoomAvailableException::new);
+                    .orElseThrow(() -> roomAvailableException);
             Booking booking = bookingRepository.save(
                     Booking.builder()
                             .userId(userRepository.findByUsername(dto.username())
@@ -45,7 +47,7 @@ public class BookingService {
                             .roomId(room.getId())
                             .build()
             );
-            return bookingRepository.findByIdWithJoins(booking.getId()).orElse(null);
+            return bookingRepository.findByIdWithJoins(booking.getId()).orElseThrow(() -> bookingNotFoundException);
         }
         throw new HotelNotFoundException();
     }
