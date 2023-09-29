@@ -1,10 +1,12 @@
 package com.github.savely03.bookingapp.service;
 
+import com.github.savely03.bookingapp.dto.HotelDto;
 import com.github.savely03.bookingapp.dto.HotelFilterDto;
 import com.github.savely03.bookingapp.dto.HotelWithCntRoomsDto;
 import com.github.savely03.bookingapp.dto.HotelWithFullInfoByRoomsDto;
 import com.github.savely03.bookingapp.entity.Hotel;
 import com.github.savely03.bookingapp.exception.HotelNotFoundException;
+import com.github.savely03.bookingapp.mapper.mapstruct.HotelMapper;
 import com.github.savely03.bookingapp.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -22,34 +24,36 @@ import java.util.Optional;
 public class HotelService {
 
     private final HotelRepository hotelRepository;
+    private final HotelMapper hotelMapper;
 
     @Transactional
     @Caching(
             evict = @CacheEvict(value = "hotelsByCityAndStars", allEntries = true)
     )
-    public Hotel create(Hotel hotel) {
-        return hotelRepository.save(hotel);
+    public HotelDto create(HotelDto hotelDto) {
+        return hotelMapper.toDto(hotelRepository.save(hotelMapper.toEntity(hotelDto)));
     }
 
     @Transactional
     @Caching(
             put = {
                     @CachePut(value = "hotels", key = "#id"),
-                    @CachePut(value = "hotelsByNameAndCity", key = "{#hotel.hotelName, #hotel.city}")
+                    @CachePut(value = "hotelsByNameAndCity", key = "{#hotelDto.hotelName, #hotelDto.city}")
             }
     )
-    public Hotel update(Long id, Hotel hotel) {
+    public HotelDto update(Long id, HotelDto hotelDto) {
         if (hotelRepository.existsById(id)) {
+            Hotel hotel = hotelMapper.toEntity(hotelDto);
             hotel.setId(id);
             hotelRepository.save(hotel);
-            return hotel;
+            return hotelDto;
         }
         throw new HotelNotFoundException();
     }
 
     @Cacheable(value = "hotels")
-    public Hotel findById(Long id) {
-        return hotelRepository.findById(id).orElseThrow(HotelNotFoundException::new);
+    public HotelDto findById(Long id) {
+        return hotelRepository.findById(id).map(hotelMapper::toDto).orElseThrow(HotelNotFoundException::new);
     }
 
 
@@ -74,7 +78,7 @@ public class HotelService {
     }
 
     @Cacheable(value = "hotelsByNameAndCity")
-    public Optional<Hotel> findByHotelNameAndCity(String hotelName, String city) {
-        return hotelRepository.findByHotelNameAndCity(hotelName, city);
+    public Optional<HotelDto> findByHotelNameAndCity(String hotelName, String city) {
+        return hotelRepository.findByHotelNameAndCity(hotelName, city).map(hotelMapper::toDto);
     }
 }

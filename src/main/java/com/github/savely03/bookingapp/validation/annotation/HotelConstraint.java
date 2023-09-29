@@ -1,5 +1,6 @@
-package com.github.savely03.bookingapp.validation;
+package com.github.savely03.bookingapp.validation.annotation;
 
+import com.github.savely03.bookingapp.validation.HotelValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -8,11 +9,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = DatesInfoValidator.class)
+@Constraint(validatedBy = HotelValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface DatesInfoConstraint {
-    String message() default "Проверьте правильность заполненных дат";
+public @interface HotelConstraint {
+    String message() default "Отель не может быть добавлен/изменен";
 
     Class<?>[] groups() default {};
 

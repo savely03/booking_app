@@ -1,7 +1,8 @@
 package com.github.savely03.bookingapp.validation;
 
-import com.github.savely03.bookingapp.entity.Hotel;
+import com.github.savely03.bookingapp.dto.HotelDto;
 import com.github.savely03.bookingapp.service.HotelService;
+import com.github.savely03.bookingapp.validation.annotation.HotelConstraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
@@ -9,19 +10,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class HotelValidator implements ConstraintValidator<HotelConstraint, Hotel> {
+public class HotelValidator implements ConstraintValidator<HotelConstraint, HotelDto> {
 
     private final HotelService hotelService;
 
     @Override
-    public boolean isValid(Hotel hotel, ConstraintValidatorContext constraintValidatorContext) {
-        if (hotel.getId() != null && hotelService.existsById(hotel.getId())) {
-            Hotel foundHotel = hotelService.findById(hotel.getId());
-            if (hotel.getHotelName().equals(foundHotel.getHotelName()) &&
-                hotel.getCity().equals(foundHotel.getCity())) {
+    public boolean isValid(HotelDto hotel, ConstraintValidatorContext constraintValidatorContext) {
+        if (hotel.id() != null && hotelService.existsById(hotel.id())) {
+            HotelDto foundHotel = hotelService.findById(hotel.id());
+            if (hotel.hotelName().equals(foundHotel.hotelName()) &&
+                hotel.city().equals(foundHotel.city())) {
                 return true;
             }
         }
-        return hotelService.findByHotelNameAndCity(hotel.getHotelName(), hotel.getCity()).isEmpty();
+        return hotelService.findByHotelNameAndCity(hotel.hotelName(), hotel.city()).isEmpty();
     }
 }

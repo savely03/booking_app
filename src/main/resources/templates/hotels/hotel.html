@@ -8,27 +8,27 @@
 <span th:insert="~{fragment :: user-info}"></span>
 <div style="text-align: center">
     <h1>Информация об отеле</h1>
-    <form th:action="@{/hotels/{hotelId}/update(hotelId=${hotel.getId()})}" method="post">
+    <form th:action="@{/hotels/{hotelId}/update(hotelId=${hotel.id()})}" method="post">
         <label for="hotelName">Название отеля:
-            <input id="hotelName" type="text" name="hotelName" th:value="${hotel.getHotelName()}">
+            <input id="hotelName" type="text" name="hotelName" th:value="${hotel.hotelName()}">
         </label><br><br>
         <label for="city">Город:
-            <input id="city" type="text" name="city" th:value="${hotel.getCity()}">
+            <input id="city" type="text" name="city" th:value="${hotel.city()}">
         </label><br><br>
         <label for="stars">Количество звезд:
-            <input id="stars" type="text" name="stars" th:value="${hotel.getStars()}">
+            <input id="stars" type="text" name="stars" th:value="${hotel.stars()}">
         </label>
         <br><br>
         <button type="submit">Редактировать</button>
     </form>
     <br>
-    <a th:href="@{/rooms(hotelId=${hotel.getId()})}">
+    <a th:href="@{/rooms(hotelId=${hotel.id()})}">
         <button>Номера</button>
     </a>
     <br><br>
     <h4>Добавление номера</h4>
     <form th:action="@{/rooms/create}" method="post">
-        <input type="hidden" name="hotelId" th:value="${hotel.getId()}">
+        <input type="hidden" name="hotelId" th:value="${hotel.id()}">
         <label for="roomNumber">Номер:
             <input id="roomNumber" type="text" name="roomNumber">
         </label><br><br>
