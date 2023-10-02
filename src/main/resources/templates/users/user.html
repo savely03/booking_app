@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователь</title>
+</head>
+<body>
+<span th:insert="~{fragment :: user-info}"></span>
+<span th:insert="~{fragment :: logout}"></span>
+<div style="text-align: center">
+    <h1>Пользователь</h1>
+    <form th:action="@{/users/{id}/update(id=${user.id()})}" method="post">
+        <label for="username">Имя пользователя:
+            <input id="username" type="text" name="username" th:value="${user.username()}">
+        </label><br><br>
+        <input type="hidden" name="password" th:value="${user.password()}">
+        <label for="email">Email:
+            <input id="email" type="text" name="email" th:value="${user.email()}">
+        </label><br><br>
+        <div>
+            <label for="role">Роль:
+                <select id="role" name="role" th:value="${user.role()}">
+                    <option>USER</option>
+                    <option>MANAGER</option>
+                </select>
+            </label>
+        </div>
+        <br>
+        <button type="submit">Редактировать</button>
+    </form>
+</div>
+<br>
+<div style="text-align: center">
+    <span th:insert="~{fragment :: main-page}"></span>
+    <br>
+    <a href="/users">
+        <button>Вернуться к пользователям</button>
+    </a>
+</div>
+</body>
+</html>

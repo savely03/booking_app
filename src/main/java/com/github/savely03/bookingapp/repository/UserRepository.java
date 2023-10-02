@@ -16,4 +16,16 @@ public interface UserRepository extends CrudRepository<Users, Long> {
             FROM users WHERE username = :username
             """)
     Optional<Users> findByUsername(@Param("username") String username);
+
+    boolean existsByUsernameOrEmail(String username, String email);
+
+    @Query("""
+            SELECT count(1) > 0
+            FROM users
+            WHERE (username = :username
+            OR email = :email)
+            AND id != :id
+            """)
+    boolean existsByUsernameOrEmail(String username, String email, Long id);
+
 }

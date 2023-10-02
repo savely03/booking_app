@@ -46,6 +46,10 @@
     <a href="/hotels" sec:authorize="hasAuthority('MANAGER')">
         <button>Список отелей</button>
     </a>
+    <br><br>
+    <a href="/users" sec:authorize="hasAuthority('MANAGER')">
+        <button>Список пользователей</button>
+    </a>
 </div>
 </body>
 </html>
