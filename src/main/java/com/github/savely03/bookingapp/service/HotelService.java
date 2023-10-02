@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,12 +32,14 @@ public class HotelService extends CrudService<Hotel, HotelDto, Long> {
         this.hotelMapper = hotelMapper;
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Transactional
     @Override
     public HotelDto create(HotelDto hotelDto) {
         return super.create(hotelDto);
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Transactional
     @Caching(
             put = {
@@ -49,23 +52,21 @@ public class HotelService extends CrudService<Hotel, HotelDto, Long> {
         return super.update(id, hotelDto);
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Cacheable(value = "hotels")
     @Override
     public HotelDto findById(Long id) {
         return super.findById(id);
     }
 
-    @Override
-    public boolean existsById(Long id) {
-        return super.existsById(id);
-    }
-
+    @PreAuthorize("hasAuthority('MANAGER')")
     public Iterable<HotelWithFullInfoByRoomsDto> findAllWithFullInfoByRooms(String city, Short stars) {
         if (StringUtils.isNotBlank(city) && stars != null) {
             return hotelRepository.findAllWithFullInfoByRooms(city, stars);
         }
         return hotelRepository.findAllWithFullInfoByRooms();
     }
+
 
     public Iterable<HotelWithCntRoomsDto> findAllFreeByFilter(HotelFilterDto filter) {
         return hotelRepository.findAllFreeHotelsByFilter(
@@ -76,6 +77,7 @@ public class HotelService extends CrudService<Hotel, HotelDto, Long> {
         );
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Cacheable(value = "hotelsByNameAndCity")
     public Optional<HotelDto> findByHotelNameAndCity(String hotelName, String city) {
         return hotelRepository.findByHotelNameAndCity(hotelName, city).map(hotelMapper::toDto);

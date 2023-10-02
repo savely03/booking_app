@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class RoomService extends CrudService<Room, RoomDto, Long> {
         this.roomMapper = roomMapper;
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Transactional
     @CacheEvict(value = "roomsByHotelId", key = "#roomDto.hotelId")
     @Override
@@ -34,6 +36,7 @@ public class RoomService extends CrudService<Room, RoomDto, Long> {
         return super.create(roomDto);
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Transactional
     @Caching(
             put = {
@@ -47,22 +50,21 @@ public class RoomService extends CrudService<Room, RoomDto, Long> {
         return super.update(id, roomDto);
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Cacheable(value = "rooms")
     @Override
     public RoomDto findById(Long id) {
         return super.findById(id);
     }
 
-    @Override
-    public boolean existsById(Long id) {
-        return super.existsById(id);
-    }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Cacheable(value = "roomsByHotelIdAndRoomNumber")
     public Optional<RoomDto> findByHotelIdAndRoomNumber(Long hotelId, Short roomNumber) {
         return roomRepository.findByHotelIdAndRoomNumber(hotelId, roomNumber).map(roomMapper::toDto);
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @Cacheable(value = "roomsByHotelId")
     public List<RoomDto> findByHotelId(Long hotelId) {
         return roomRepository.findByHotelIdOrderByRoomNumber(hotelId).stream()

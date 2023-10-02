@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+    <style>
+        table {
+            width: 300px;
+            margin: auto;
+        }
+
+        td {
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<span th:insert="~{fragment :: user-info}"></span>
+<span th:insert="~{fragment :: logout}"></span>
+<div style="text-align: center">
+    <h1>Пользователи</h1>
+    <h4>Создание пользователя</h4>
+    <form th:action="@{/users/create}" method="post">
+        <label for="username">Имя пользователя:
+            <input id="username" type="text" name="username">
+        </label><br><br>
+        <label for="password">Пароль:
+            <input id="password" type="text" name="password">
+        </label><br><br>
+        <label for="email">Email:
+            <input id="email" type="text" name="email">
+        </label><br><br>
+        <div>
+            <label for="role">Роль:
+                <select id="role" name="role">
+                    <option>USER</option>
+                    <option>MANAGER</option>
+                </select>
+            </label>
+        </div>
+        <br>
+        <button type="submit">Создать</button>
+    </form>
+    <h4>Список пользователей</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Имя пользователя</th>
+            <th>Email</th>
+            <th>Роль</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="user: ${users}">
+            <tr>
+                <td>
+                    <p th:text="${user.username()}">Username</p>
+                </td>
+                <td>
+                    <p th:text="${user.email()}">Email</p>
+                </td>
+                <td>
+                    <p th:text="${user.role()}">Role</p>
+                </td>
+                <td>
+                    <form th:action="@{/users/{id}/delete(id=${user.id()})}" method="post">
+                        <button type="submit">
+                            Удалить пользователя
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <a th:href="@{/users/{id}(id=${user.id()})}">
+                        <button>Подробнее</button>
+                    </a>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</div>
+<br>
+<div style="text-align: center">
+    <span th:insert="~{fragment :: main-page}"></span>
+</div>
+</body>
+</html>

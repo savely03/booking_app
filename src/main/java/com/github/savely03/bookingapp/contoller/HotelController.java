@@ -18,21 +18,18 @@ public class HotelController {
     private final HotelService hotelService;
 
     @PostMapping("/create")
-    @PreAuthorize("hasAuthority('MANAGER')")
     public String create(@Valid HotelDto hotelDto) {
         HotelDto createdHotel = hotelService.create(hotelDto);
         return "redirect:/hotels/" + createdHotel.id();
     }
 
     @PostMapping("/{id}/update")
-    @PreAuthorize("hasAuthority('MANAGER')")
     public String update(@PathVariable Long id, @Valid HotelDto hotelDto) {
         hotelService.update(id, hotelDto);
         return "redirect:/hotels/" + id;
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('MANAGER')")
     public String findById(Model model, @PathVariable Long id) {
         HotelDto hotelDto = hotelService.findById(id);
         model.addAttribute("hotel", hotelDto);
@@ -47,7 +44,6 @@ public class HotelController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasAuthority('MANAGER')")
     public String findAllWithFullInfoByRooms(Model model,
                                              @RequestParam(value = "city", required = false) String city,
                                              @RequestParam(value = "stars", required = false) Short stars) {
