@@ -1,3 +1,10 @@
-FROM openjdk:17
-ADD /target/booking-app-0.0.1-SNAPSHOT.jar booking.jar
-ENTRYPOINT ["java", "-jar", "booking.jar"]
+FROM maven:3.8.4-openjdk-17 AS builder
+WORKDIR /app
+COPY . /app/.
+RUN mvn -f /app/pom.xml clean package -Dmaven.test.skip=true
+
+FROM openjdk:17-alpine
+WORKDIR /app
+COPY --from=builder /app/target/*.jar /app/*.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app/*.jar"]

@@ -20,7 +20,7 @@ public class RoomValidator implements ConstraintValidator<RoomConstraint, RoomDt
     public boolean isValid(RoomDto room, ConstraintValidatorContext constraintValidatorContext) {
         if (room.id() != null && roomService.existsById(room.id())) {
             RoomDto foundRoom = roomService.findById(room.id());
-            if (room.hotelId().equals(foundRoom.id()) &&
+            if (room.hotelId().equals(foundRoom.hotelId()) &&
                 room.roomNumber().equals(foundRoom.roomNumber())) {
                 return true;
             }

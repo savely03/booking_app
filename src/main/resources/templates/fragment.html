@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Fragments</title>
@@ -14,6 +14,11 @@
     <a href="/hotels/index">
         <button>Вернуться на главную страницу</button>
     </a>
+</div>
+<div th:fragment="logout">
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Выйти</button>
+    </form>
 </div>
 </body>
 </html>

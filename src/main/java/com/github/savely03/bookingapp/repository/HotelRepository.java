@@ -35,7 +35,7 @@ public interface HotelRepository extends CrudRepository<Hotel, Long> {
             """;
 
     String FIND_ALL_WITH_FULL_INFO_BY_CITY_AND_STARS =
-            FIND_ALL_WITH_FULL_INFO + " HAVING h.city = :city AND h.stars = :stars";
+            FIND_ALL_WITH_FULL_INFO + " HAVING h.city ILIKE concat(:city, '%') AND h.stars = :stars";
 
     @Query(value = """
             SELECT id, hotel_name, stars, city, hotel_id, cnt_rooms
@@ -53,7 +53,7 @@ public interface HotelRepository extends CrudRepository<Hotel, Long> {
                         ) r
                 ON h.id = r.hotel_id
                 WHERE stars = :stars
-                AND city = :city
+                AND city ILIKE concat(:city, '%')
             """, rowMapperClass = HotelWithCntRoomsRowMapper.class)
     List<HotelWithCntRoomsDto> findAllFreeHotelsByFilter(@Param("date_from") LocalDate dateFrom,
                                                          @Param("date_to") LocalDate dateTo,

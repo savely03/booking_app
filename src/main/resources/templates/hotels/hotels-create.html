@@ -6,6 +6,7 @@
 </head>
 <body>
 <span th:insert="~{fragment :: user-info}"></span>
+<span th:insert="~{fragment :: logout}"></span>
 <div style="text-align: center">
     <h1>Создание отеля</h1>
     <form th:action="@{/hotels/create}" method="post">

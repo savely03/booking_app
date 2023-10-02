@@ -27,7 +27,9 @@ public abstract class CrudService<E extends BaseEntity<I>, D, I> {
     }
 
     public D findById(I id) {
-        return repository.findById(id).map(mapper::toDto).orElseThrow(() -> notFoundException);
+        return repository.findById(id)
+                .map(mapper::toDto)
+                .orElseThrow(() -> notFoundException);
     }
 
     public void deleteById(I id) {

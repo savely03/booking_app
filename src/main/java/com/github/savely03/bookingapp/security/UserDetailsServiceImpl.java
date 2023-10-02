@@ -1,4 +1,4 @@
-package com.github.savely03.bookingapp.service;
+package com.github.savely03.bookingapp.security;
 
 import com.github.savely03.bookingapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 

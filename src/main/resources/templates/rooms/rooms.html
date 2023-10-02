@@ -16,6 +16,8 @@
     </style>
 </head>
 <body>
+<span th:insert="~{fragment :: user-info}"></span>
+<span th:insert="~{fragment :: logout}"></span>
 <div th:if="${rooms.iterator().hasNext() != false}" style="text-align: center">
     <h1>Номера</h1>
     <table>
