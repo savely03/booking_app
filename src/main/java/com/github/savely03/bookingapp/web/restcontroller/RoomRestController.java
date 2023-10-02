@@ -1,4 +1,4 @@
-package com.github.savely03.bookingapp.restcontroller;
+package com.github.savely03.bookingapp.web.restcontroller;
 
 import com.github.savely03.bookingapp.dto.RoomDto;
 import com.github.savely03.bookingapp.entity.Room;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/rooms")
-public class RoomRestController extends CrudController<Room, RoomDto, Long> {
+public class RoomRestController extends CrudRestController<Room, RoomDto, Long> {
 
     private final RoomService roomService;
 

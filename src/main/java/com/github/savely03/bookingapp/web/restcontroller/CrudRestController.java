@@ -1,4 +1,4 @@
-package com.github.savely03.bookingapp.restcontroller;
+package com.github.savely03.bookingapp.web.restcontroller;
 
 import com.github.savely03.bookingapp.entity.BaseEntity;
 import com.github.savely03.bookingapp.service.CrudService;
@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-public abstract class CrudController<E extends BaseEntity<I>, D, I> {
+public abstract class CrudRestController<E extends BaseEntity<I>, D, I> {
 
     private final CrudService<E, D, I> crudService;
 

@@ -1,4 +1,4 @@
-package com.github.savely03.bookingapp.restcontroller;
+package com.github.savely03.bookingapp.web.restcontroller;
 
 import com.github.savely03.bookingapp.dto.BookingCreateDto;
 import com.github.savely03.bookingapp.dto.BookingReadDto;

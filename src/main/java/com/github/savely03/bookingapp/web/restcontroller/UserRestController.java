@@ -1,4 +1,4 @@
-package com.github.savely03.bookingapp.restcontroller;
+package com.github.savely03.bookingapp.web.restcontroller;
 
 import com.github.savely03.bookingapp.dto.UserDto;
 import com.github.savely03.bookingapp.entity.Users;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserRestController extends CrudController<Users, UserDto, Long> {
+public class UserRestController extends CrudRestController<Users, UserDto, Long> {
 
     private final UserService userService;
 

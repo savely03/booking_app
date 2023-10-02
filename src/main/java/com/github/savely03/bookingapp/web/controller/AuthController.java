@@ -1,4 +1,4 @@
-package com.github.savely03.bookingapp.contoller;
+package com.github.savely03.bookingapp.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
