@@ -26,6 +26,7 @@ public interface RoomRepository extends CrudRepository<Room, Long> {
                 WHERE date_from BETWEEN :date_from AND :date_to
                 OR date_to BETWEEN :date_from AND :date_to
             )
+            FOR UPDATE
             LIMIT 1
             """)
     Optional<Room> findFreeRoomByHotelAndDate(@Param("hotel_id") Long hotelId,
