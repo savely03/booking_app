@@ -1,4 +1,4 @@
-package com.github.savely03.bookingapp.contoller;
+package com.github.savely03.bookingapp.web.controller;
 
 import com.github.savely03.bookingapp.dto.HotelDto;
 import com.github.savely03.bookingapp.dto.HotelFilterDto;
