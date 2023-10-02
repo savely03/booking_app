@@ -4,6 +4,7 @@ import com.github.savely03.bookingapp.entity.BaseEntity;
 import com.github.savely03.bookingapp.exception.NotFoundException;
 import com.github.savely03.bookingapp.mapper.mapstruct.BaseMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.relational.core.conversion.DbActionExecutionException;
 import org.springframework.data.repository.CrudRepository;
 
 @RequiredArgsConstructor
@@ -14,16 +15,19 @@ public abstract class CrudService<E extends BaseEntity<I>, D, I> {
     private final BaseMapper<D, E> mapper;
 
     public D create(D dto) {
-        return mapper.toDto(repository.save(mapper.toEntity(dto)));
+        E entity = mapper.toEntity(dto);
+        entity.setId(null);
+        return mapper.toDto(repository.save(entity));
     }
 
     public D update(I id, D dto) {
-        if (repository.existsById(id)) {
+        try {
             E entity = mapper.toEntity(dto);
             entity.setId(id);
             return mapper.toDto(repository.save(entity));
+        } catch (DbActionExecutionException e) {
+            throw notFoundException;
         }
-        throw notFoundException;
     }
 
     public D findById(I id) {
