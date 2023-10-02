@@ -8,8 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
@@ -25,11 +23,13 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated()
-                )
-                .httpBasic(withDefaults())
-                .logout(logout -> logout // Не работает при basic auth из браузера
+                ).formLogin(login -> login
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/hotels/index"))
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
                         .clearAuthentication(true)
-                        .logoutSuccessUrl("/hotels/index")
+                        .logoutSuccessUrl("/login")
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true))
                 .build();

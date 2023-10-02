@@ -6,10 +6,11 @@
 </head>
 <body>
 <span th:insert="~{fragment :: user-info}"></span>
+<span th:insert="~{fragment :: logout}"></span>
 <div style="text-align: center">
     <h1>Отели</h1>
     <form action="/hotels">
-        <label for="city">Город:
+        <label for="city">Город (RU любой регистр):
             <input id="city" type="text" name="city">
         </label><br><br>
         <div>

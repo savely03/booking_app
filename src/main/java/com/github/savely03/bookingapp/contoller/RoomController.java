@@ -46,6 +46,6 @@ public class RoomController {
     public String findByHotelId(Model model, @RequestParam("hotelId") Long hotelId) {
         List<RoomDto> rooms = roomService.findByHotelId(hotelId);
         model.addAttribute("rooms", rooms);
-        return "/rooms/rooms";
+        return "rooms/rooms";
     }
 }

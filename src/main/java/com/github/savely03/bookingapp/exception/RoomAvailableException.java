@@ -1,9 +1,8 @@
 package com.github.savely03.bookingapp.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 
-@Component
+
 public class RoomAvailableException extends BaseException {
     private static final String MESSAGE = "Номер/номера недоступны";
 

@@ -6,6 +6,7 @@
 </head>
 <body>
 <span th:insert="~{fragment :: user-info}"></span>
+<span th:insert="~{fragment :: logout}"></span>
 <h1>Истроия бронирований</h1>
 <div style="text-align: center" th:if="${bookings.iterator().hasNext() != false}">
     <table>
