@@ -1,0 +1,968 @@
+---
+openapi: "3.0.1"
+info:
+  title: "Booking Service"
+  version: "v0.0.1"
+servers:
+  - url: "http://localhost:8080"
+    description: "Generated server url"
+paths:
+  /api/users/{id}:
+    get:
+      tags:
+        - "user-rest-controller"
+      operationId: "findById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDto"
+    put:
+      tags:
+        - "user-rest-controller"
+      operationId: "update"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDto"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDto"
+    delete:
+      tags:
+        - "user-rest-controller"
+      operationId: "deleteById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+  /api/rooms/{id}:
+    get:
+      tags:
+        - "room-rest-controller"
+      operationId: "findById_1"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RoomDto"
+    put:
+      tags:
+        - "room-rest-controller"
+      operationId: "update_1"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoomDto"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RoomDto"
+    delete:
+      tags:
+        - "room-rest-controller"
+      operationId: "deleteById_1"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+  /api/hotels/{id}:
+    get:
+      tags:
+        - "hotel-rest-controller"
+      operationId: "findById_2"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/HotelDto"
+    put:
+      tags:
+        - "hotel-rest-controller"
+      operationId: "update_2"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HotelDto"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/HotelDto"
+    delete:
+      tags:
+        - "hotel-rest-controller"
+      operationId: "deleteById_2"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+  /api/users:
+    get:
+      tags:
+        - "user-rest-controller"
+      operationId: "findAll"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/UserDto"
+    post:
+      tags:
+        - "user-rest-controller"
+      operationId: "create"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDto"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDto"
+  /api/rooms:
+    get:
+      tags:
+        - "room-rest-controller"
+      operationId: "findByHotelId"
+      parameters:
+        - name: "hotelId"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/RoomDto"
+    post:
+      tags:
+        - "room-rest-controller"
+      operationId: "create_1"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoomDto"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RoomDto"
+  /api/hotels:
+    get:
+      tags:
+        - "hotel-rest-controller"
+      operationId: "findAllWithFullInfoByRooms"
+      parameters:
+        - name: "city"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+        - name: "stars"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+    post:
+      tags:
+        - "hotel-rest-controller"
+      operationId: "create_2"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HotelDto"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/HotelDto"
+  /api/hotels/free:
+    post:
+      tags:
+        - "hotel-rest-controller"
+      operationId: "findAllFreeByFilter"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HotelFilterDto"
+        required: true
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /api/bookings:
+    get:
+      tags:
+        - "booking-rest-controller"
+      operationId: "findAllByUsername"
+      parameters:
+        - name: "username"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+    post:
+      tags:
+        - "booking-rest-controller"
+      operationId: "create_3"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingCreateDto"
+        required: true
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BookingReadDto"
+  /api/bookings/{id}:
+    delete:
+      tags:
+        - "booking-rest-controller"
+      operationId: "deleteById_3"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "500":
+          description: "Internal Server Error"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+components:
+  schemas:
+    UserDto:
+      required:
+        - "email"
+        - "password"
+        - "role"
+        - "username"
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        username:
+          type: "string"
+        password:
+          type: "string"
+        email:
+          type: "string"
+        role:
+          type: "string"
+          enum:
+            - "MANAGER"
+            - "USER"
+    RoomDto:
+      required:
+        - "hotelId"
+        - "roomFloor"
+        - "roomNumber"
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        hotelId:
+          type: "integer"
+          format: "int64"
+        roomNumber:
+          minimum: 1
+          type: "integer"
+          format: "int32"
+        roomFloor:
+          type: "integer"
+          format: "int32"
+    HotelDto:
+      required:
+        - "city"
+        - "hotelName"
+        - "stars"
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        hotelName:
+          type: "string"
+        stars:
+          maximum: 5
+          minimum: 1
+          type: "integer"
+          format: "int32"
+        city:
+          type: "string"
+    HotelFilterDto:
+      required:
+        - "city"
+        - "stars"
+      type: "object"
+      properties:
+        stars:
+          type: "integer"
+          format: "int32"
+        city:
+          type: "string"
+        dateFrom:
+          type: "string"
+          format: "date"
+        dateTo:
+          type: "string"
+          format: "date"
+    BookingCreateDto:
+      required:
+        - "hotelId"
+        - "username"
+      type: "object"
+      properties:
+        username:
+          type: "string"
+        hotelId:
+          type: "integer"
+          format: "int64"
+        dateFrom:
+          type: "string"
+          format: "date"
+        dateTo:
+          type: "string"
+          format: "date"
+    BookingReadDto:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        room:
+          $ref: "#/components/schemas/Room"
+        user:
+          $ref: "#/components/schemas/Users"
+        hotel:
+          $ref: "#/components/schemas/Hotel"
+        dateFrom:
+          type: "string"
+          format: "date"
+        dateTo:
+          type: "string"
+          format: "date"
+    Hotel:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        hotelName:
+          type: "string"
+        stars:
+          type: "integer"
+          format: "int32"
+        city:
+          type: "string"
+    Room:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        hotelId:
+          type: "integer"
+          format: "int64"
+        roomNumber:
+          type: "integer"
+          format: "int32"
+        roomFloor:
+          type: "integer"
+          format: "int32"
+    Users:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        username:
+          type: "string"
+        password:
+          type: "string"
+        email:
+          type: "string"
+        role:
+          type: "string"
+          enum:
+            - "MANAGER"
+            - "USER"

@@ -22,7 +22,7 @@ public class HotelRestController extends CrudRestController<Hotel, HotelDto, Lon
         this.hotelService = hotelService;
     }
 
-    @GetMapping("/free")
+    @PostMapping("/free")
     public ResponseEntity<Iterable<HotelWithCntRoomsDto>> findAllFreeByFilter(@RequestBody @Valid HotelFilterDto filterDto) {
         return ResponseEntity.ok(hotelService.findAllFreeByFilter(filterDto));
     }
