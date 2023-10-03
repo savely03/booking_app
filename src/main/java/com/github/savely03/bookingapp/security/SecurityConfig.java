@@ -13,6 +13,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private static final String[] AUTH_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
             "/login"
     };
 
@@ -24,12 +26,12 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated()
                 ).formLogin(login -> login
-                        .loginPage("/login")
+                        .loginPage(AUTH_WHITELIST[2])
                         .defaultSuccessUrl("/hotels/index"))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .clearAuthentication(true)
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl(AUTH_WHITELIST[2])
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true))
                 .build();
