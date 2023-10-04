@@ -20,12 +20,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> auth
+        return http.csrf().disable()
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST)
                         .permitAll()
                         .anyRequest()
                         .authenticated()
-                ).formLogin(login -> login
+                )
+                .formLogin(login -> login
                         .loginPage(AUTH_WHITELIST[2])
                         .defaultSuccessUrl("/hotels/index"))
                 .logout(logout -> logout
