@@ -4,12 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Hotels Main Page</title>
+    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+    <script th:src="@{/js/hotelsFree.js}"></script>
+    <script th:src="@{/js/bookings.js}"></script>
+    <style>
+        table {
+            width: 500px;
+            margin: auto;
+        }
+
+        td {
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <span th:insert="~{fragment :: user-info}"></span>
 <span th:insert="~{fragment :: logout}"></span>
 <div style="text-align: center">
     <h1>Бронирование отеля</h1>
+    <div style="color: red" id="filterError"></div>
     <form action="/hotels/free">
         <label for="city">Город (RU любой регистр):
             <input id="city" type="text" name="city">
@@ -32,7 +47,8 @@
             </label>
         </div>
         <br>
-        <button type="submit">Поиск</button>
+        <input type="button" value="Поиск" onclick="send_filters()">
+        <button type="submit">Бронирование</button>
     </form>
     <br>
     <a th:href="@{/bookings(username=${#authentication.getPrincipal().username})}">
@@ -50,6 +66,18 @@
     <a href="/users" sec:authorize="hasAuthority('MANAGER')">
         <button>Список пользователей</button>
     </a>
+    <table>
+        <thead>
+        <tr>
+            <th>Название отеля</th>
+            <th>Количество звезд</th>
+            <th>Город</th>
+            <th>Количество свободных номеров</th>
+        </tr>
+        </thead>
+        <tbody id="hotelsTable">
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
