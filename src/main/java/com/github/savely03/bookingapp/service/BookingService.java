@@ -11,6 +11,7 @@ import com.github.savely03.bookingapp.repository.BookingRepository;
 import com.github.savely03.bookingapp.repository.HotelRepository;
 import com.github.savely03.bookingapp.repository.RoomRepository;
 import com.github.savely03.bookingapp.repository.UserRepository;
+import com.github.savely03.bookingapp.security.AuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -28,17 +29,19 @@ public class BookingService {
     private final RoomRepository roomRepository;
     private final HotelRepository hotelRepository;
     private final UserRepository userRepository;
+    private final AuthenticationProvider authenticationProvider;
 
     @Transactional(timeout = 3000)
     @CacheEvict(value = "bookings", key = "@authenticationProvider.getAuthentication().getName()")
     public BookingReadDto createBooking(BookingCreateDto dto) {
+        String username = authenticationProvider.getAuthentication().getName();
         if (hotelRepository.existsById(dto.hotelId())) {
             Room room = roomRepository.findFreeRoomByHotelAndDate(dto.hotelId(), dto.getDateFrom(), dto.getDateTo())
                     .orElseThrow(RoomAvailableException::new);
             Booking booking = bookingRepository.save(
                     Booking.builder()
-                            .userId(userRepository.findByUsername(dto.username())
-                                    .orElseThrow(() -> new UsernameNotFoundException(dto.username()))
+                            .userId(userRepository.findByUsername(username)
+                                    .orElseThrow(() -> new UsernameNotFoundException(username))
                                     .getId())
                             .dateFrom(dto.getDateFrom())
                             .dateTo(dto.getDateTo())
