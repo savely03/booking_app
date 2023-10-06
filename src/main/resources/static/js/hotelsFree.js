@@ -1,5 +1,5 @@
 function rebuild_table(data) {
-    let table = document.getElementById('hotelsTable');
+    let table = document.getElementById('hotelsFreeTable');
     table.innerHTML = '';
 
     for (let i = 0; i < data.length; i++) {
@@ -11,8 +11,8 @@ function rebuild_table(data) {
                     <td>
                     <input type="button" onclick="create_booking(${data[i].id})" value="Забронировать">
                     </td>
-                </tr>`
-        table.innerHTML += row
+                </tr>`;
+        table.innerHTML += row;
     }
 }
 

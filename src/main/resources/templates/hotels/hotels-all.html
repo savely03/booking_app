@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Отели</title>
+    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+    <script th:src="@{/js/hotelsAll.js}"></script>
+    <span th:insert="~{fragment :: table_styles}"></span>
 </head>
 <body>
 <span th:insert="~{fragment :: user-info}"></span>
 <span th:insert="~{fragment :: logout}"></span>
 <div style="text-align: center">
     <h1>Отели</h1>
+    <div id="hotels_all_error" style="color: red">
+    </div>
     <form action="/hotels">
-        <label for="city">Город (RU любой регистр):
-            <input id="city" type="text" name="city">
+        <label for="h_city">Город (RU любой регистр):
+            <input id="h_city" type="text" name="city">
         </label><br><br>
         <div>
-            <label for="stars">Количество звезд:
-                <select id="stars" name="stars">
+            <label for="h_stars">Количество звезд:
+                <select id="h_stars" name="stars">
                     <option>5</option>
                     <option>4</option>
                     <option>3</option>
@@ -25,7 +30,7 @@
             </label>
         </div>
         <br>
-        <button type="submit">Поиск</button>
+        <input type="button" value="Поиск" onclick="hotels_all()">
     </form>
 </div>
 <br><br>
@@ -40,36 +45,7 @@
             <th>Количество свободных номеров</th>
         </tr>
         </thead>
-        <tbody>
-        <div th:each="hotel: ${hotels}">
-            <tr>
-                <td>
-                    <p th:text="${hotel.hotelName()}">City</p>
-                </td>
-                <td>
-                    <p th:text="${hotel.city()}">City</p>
-                </td>
-                <td>
-                    <p th:text="${hotel.totalRooms()}">Rooms</p>
-                </td>
-                <td>
-                    <p th:text="${hotel.busyRooms()}">Rooms</p>
-                </td>
-                <td>
-                    <p th:text="${hotel.freeRooms()}">Rooms</p>
-                </td>
-                <td>
-                    <a th:href="@{/hotels/{hotelId}(hotelId=${hotel.id()})}">
-                        <button>Подробнее</button>
-                    </a>
-                </td>
-                <td>
-                    <a th:href="@{/rooms(hotelId=${hotel.id()})}">
-                        <button>Номера</button>
-                    </a>
-                </td>
-            </tr>
-        </div>
+        <tbody id="hotelsTable">
         </tbody>
     </table>
 </div>
@@ -82,3 +58,4 @@
 </div>
 </body>
 </html>
+
