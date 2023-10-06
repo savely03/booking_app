@@ -7,17 +7,7 @@
     <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
     <script th:src="@{/js/hotelsFree.js}"></script>
     <script th:src="@{/js/bookings.js}"></script>
-    <style>
-        table {
-            width: 500px;
-            margin: auto;
-        }
-
-        td {
-            border: 1px solid black;
-            text-align: center;
-        }
-    </style>
+    <span th:insert="~{fragment :: table_styles}"></span>
 </head>
 <body>
 <span th:insert="~{fragment :: user-info}"></span>
@@ -47,8 +37,8 @@
             </label>
         </div>
         <br>
-        <input type="button" value="Поиск" onclick="send_filters()">
-        <button type="submit">Бронирование</button>
+        <input type="button" value="Поиск(ajax)" onclick="send_filters()">
+        <button type="submit">Поиск</button>
     </form>
     <br>
     <a th:href="@{/bookings(username=${#authentication.getPrincipal().username})}">
@@ -75,7 +65,7 @@
             <th>Количество свободных номеров</th>
         </tr>
         </thead>
-        <tbody id="hotelsTable">
+        <tbody id="hotelsFreeTable">
         </tbody>
     </table>
 </div>

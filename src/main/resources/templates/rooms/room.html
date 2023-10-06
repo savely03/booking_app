@@ -18,9 +18,15 @@
         <button type="submit">Редактировать</button>
     </form>
     <br><br>
-    <a th:href="@{/hotels/{hotelId}(hotelId=${room.hotelId()})}">
-        <button>Вернуться к отелю</button>
-    </a>
+<!--    <a th:href="@{/hotels/{hotelId}(hotelId=${room.hotelId()})}">-->
+<!--        <button>Вернуться к отелю</button>-->
+<!--    </a>-->
+    <br><br>
+    <td>
+        <a th:href="@{/rooms(hotelId=${room.hotelId()})}">
+            <button>Вернуться к номерам</button>
+        </a>
+    </td>
     <br><br>
     <a href="/hotels">
         <button>Вернуться к списку отелей</button>
