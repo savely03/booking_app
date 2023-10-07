@@ -2,7 +2,7 @@ package com.github.savely03.bookingapp.handler;
 
 import com.github.savely03.bookingapp.dto.ErrorResponseDto;
 import com.github.savely03.bookingapp.exception.NotFoundException;
-import com.github.savely03.bookingapp.exception.RoomAvailableException;
+import com.github.savely03.bookingapp.exception.RoomNotAvailableException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -39,8 +39,8 @@ public class BaseExceptionHandler {
         return PAGE;
     }
 
-    @ExceptionHandler(RoomAvailableException.class)
-    public String handleRoomAvailableException(Model model, RoomAvailableException e) {
+    @ExceptionHandler(RoomNotAvailableException.class)
+    public String handleRoomAvailableException(Model model, RoomNotAvailableException e) {
         logException(e);
         fillModel(model, e.getMessage(), e.getHttpStatus());
         return PAGE;

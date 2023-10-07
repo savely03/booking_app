@@ -18,7 +18,7 @@ public class LoggingAspect {
         String methodName = getMethodName(joinPoint);
         String targetClassName = getTargetClassName(joinPoint);
 
-        log.info("Method {} was invoked in class - {}",
+        log.trace("Method {} was invoked in class - {}",
                 methodName,
                 targetClassName
         );
@@ -29,7 +29,7 @@ public class LoggingAspect {
             log.error(String.format("%s - %s", e.getClass().getName(), e.getMessage()), e);
             throw e;
         } finally {
-            log.info("Method {} completed work in class - {}",
+            log.trace("Method {} completed work in class - {}",
                     methodName,
                     targetClassName
             );
