@@ -6,7 +6,7 @@ import com.github.savely03.bookingapp.entity.Booking;
 import com.github.savely03.bookingapp.entity.Room;
 import com.github.savely03.bookingapp.exception.BookingNotFoundException;
 import com.github.savely03.bookingapp.exception.HotelNotFoundException;
-import com.github.savely03.bookingapp.exception.RoomAvailableException;
+import com.github.savely03.bookingapp.exception.RoomNotAvailableException;
 import com.github.savely03.bookingapp.repository.BookingRepository;
 import com.github.savely03.bookingapp.repository.HotelRepository;
 import com.github.savely03.bookingapp.repository.RoomRepository;
@@ -37,7 +37,7 @@ public class BookingService {
         String username = authenticationProvider.getAuthentication().getName();
         if (hotelRepository.existsById(dto.hotelId())) {
             Room room = roomRepository.findFreeRoomByHotelAndDate(dto.hotelId(), dto.getDateFrom(), dto.getDateTo())
-                    .orElseThrow(RoomAvailableException::new);
+                    .orElseThrow(RoomNotAvailableException::new);
             Booking booking = bookingRepository.save(
                     Booking.builder()
                             .userId(userRepository.findByUsername(username)
